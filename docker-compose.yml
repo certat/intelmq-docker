@@ -22,7 +22,7 @@ services:
 
 # IntelMQ with IntelMQ-Manager!
     intelmq-full:
-        image: intelmq-full:latest
+        image: certat/intelmq-full:latest
         volumes: 
             - /home/sebastian/Projects/docker/intelmq/etc:/opt/intelmq/etc
             - /home/sebastian/Projects/docker/intelmq-manager:/opt/intelmq-manager/config
@@ -41,19 +41,6 @@ services:
             INTELMQ_MANAGER_CONFIG: "/opt/intelmq-manager/config/config.json"
         networks:
             - intelmq-network
-            - intelmq-database
-
-    adminer:
-        image: adminer
-        ports:
-            - 8080:8080
-        depends_on:
-            - postgres
-        environment:
-            ADMINER_DEFAULT_DB_DRIVER: pgsql
-            ADMINER_DEFAULT_DB_HOST: postgres
-            ADMINER_DEFAULT_DB_NAME: adminer
-        networks:
             - intelmq-database
 
 networks:
