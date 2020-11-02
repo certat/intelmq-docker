@@ -22,7 +22,7 @@ services:
 
 # IntelMQ with IntelMQ-Manager!
     intelmq-full:
-        image: certat/intelmq-full:latest
+        image: certat/intelmq-full:1.0
         volumes: 
             - ~/example_config/intelmq/etc:/opt/intelmq/etc
             - ~/example_config/intelmq-manager:/opt/intelmq-manager/config
