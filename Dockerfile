@@ -14,8 +14,6 @@ LABEL org.label-schema.vcs-url="https://github.com/certtools/intelmq"
 LABEL org.label-schema.vcs-ref=$VCS_REF
 LABEL org.label-schema.vendor="CERT.AT"
 LABEL org.label-schema.version=$BUILD_VERSION
-LABEL org.label-schema.docker.cmd="docker run -v ~/ballerina/packages:/ballerina/files -p 9090:9090 -d ballerinalang/ballerina"
-
 
 ENV LANG C.UTF-8
 COPY ./intelmq /opt/intelmq
@@ -24,6 +22,7 @@ WORKDIR /opt
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
+    sudo \
     gcc \
     python3-nose \
     python3-yaml \
@@ -34,8 +33,9 @@ RUN apt-get update \
     python3-pip
 
 RUN useradd -d /opt/intelmq -U -s /bin/bash intelmq
-
-RUN chown -R intelmq:intelmq /opt/intelmq
+RUN adduser intelmq sudo
+RUN echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN sudo chown -R intelmq:intelmq /opt/intelmq
 
 ### Install IntelMQ
 RUN cd /opt/intelmq \
@@ -51,13 +51,6 @@ RUN mkdir /opt/intelmq/etc/manager/ \
     && touch /opt/intelmq/etc/manager/positions.conf \
     && chgrp www-data /opt/intelmq/etc/*.conf /opt/intelmq/etc/manager/positions.conf \
     && chmod g+w /opt/intelmq/etc/*.conf /opt/intelmq/etc/manager/positions.conf
-
-### Remove unused packages
-RUN apt-get remove -y \
-    python3-pip \
-    python3-setuptools
-
-RUN apt-get autoremove -y
 
 USER intelmq
 
