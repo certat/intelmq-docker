@@ -1,0 +1,63 @@
+version: "3"
+services:
+    redis:
+        image: redis:latest
+        volumes:
+            - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
+        command:
+            - redis-server
+            - /usr/local/etc/redis/redis.conf
+        restart: always
+        networks:
+            - intelmq-network
+    postgres: 
+        image: postgres:latest
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: test
+            POSTGRES_USER: root
+            POSTGRES_DB: test
+        networks:
+            - intelmq-database
+
+# IntelMQ with IntelMQ-Manager!
+    intelmq-full:
+        image: intelmq-full:latest
+        volumes: 
+            - /home/sebastian/Projects/docker/intelmq/etc:/opt/intelmq/etc
+            - /home/sebastian/Projects/docker/intelmq-manager:/opt/intelmq-manager/config
+            - /home/sebastian/Projects/docker/intelmq/var/log:/opt/intelmq/var/log
+            - /home/sebastian/Projects/docker/intelmq/var/lib:/opt/intelmq/var/lib
+        ports: 
+            - 1337:8080
+        depends_on: 
+            - redis
+            - postgres
+        environment: 
+            INTELMQ_IS_DOCKER: "true"
+            INTELMQ_PIPELINE_DRIVER: "redis"
+            INTELMQ_PIPELINE_HOST: redis
+            INTELMQ_REDIS_CACHE_HOST: redis
+            INTELMQ_MANAGER_CONFIG: "/opt/intelmq-manager/config/config.json"
+        networks:
+            - intelmq-network
+            - intelmq-database
+
+    adminer:
+        image: adminer
+        ports:
+            - 8080:8080
+        depends_on:
+            - postgres
+        environment:
+            ADMINER_DEFAULT_DB_DRIVER: pgsql
+            ADMINER_DEFAULT_DB_HOST: postgres
+            ADMINER_DEFAULT_DB_NAME: adminer
+        networks:
+            - intelmq-database
+
+networks:
+    intelmq-network:
+        driver: bridge
+    intelmq-database:
+        driver: bridge
