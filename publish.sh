@@ -1,8 +1,8 @@
 #!/bin/bash
-build_version="1.1"
+build_version="1.0"
 
-docker login --username=sebwalcertat
+docker login
 
-docker tag certat/intelmq-full:$build_version
+docker tag intelmq-full:$build_version certat/intelmq-full:$build_version
 
-docker push certat/intelmq-full
+docker push certat/intelmq-full:$build_version
