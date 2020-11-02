@@ -1,0 +1,4 @@
+{
+    "intelmq_ctl_cmd": ["/usr/local/bin/intelmqctl"],
+    "allowed_path": "/opt/intelmq/var/lib/"
+}
