@@ -11,7 +11,7 @@ echo Build_date: $build_date
 cp -r ../intelmq ./intelmq
 cp -r ../intelmq-manager ./intelmq-manager
 
-docker build --no-cache --build-arg BUILD_DATE=$build_date \
+docker build --build-arg BUILD_DATE=$build_date \
     --build-arg VCS_REF="$git_ref_core, $git_ref_manager" \
     --build-arg BUILD_VERSION=$build_version \
     -f Dockerfile \

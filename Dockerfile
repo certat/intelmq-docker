@@ -1,4 +1,5 @@
 FROM debian:buster
+ENV LANG C.UTF-8
 
 ARG BUILD_DATE
 ARG VCS_REF
@@ -15,9 +16,9 @@ LABEL maintainer="Sebastian Waldbauer <waldbauer@cert.at>" \
       org.label-schema.vendor="CERT.AT" \
       org.label-schema.version=$BUILD_VERSION
 
-ENV LANG C.UTF-8
 COPY ./intelmq /opt/intelmq
 COPY ./intelmq-manager /opt/intelmq-manager
+
 WORKDIR /opt
 
 RUN apt-get update \
@@ -38,8 +39,6 @@ RUN useradd -d /opt/intelmq -U -s /bin/bash intelmq \
     && echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
     && sudo chown -R intelmq:intelmq /opt/intelmq
 
-ADD --chown=intelmq:intelmq entrypoint.sh /opt/entrypoint.sh
-
 ### Install IntelMQ
 RUN cd /opt/intelmq \
     && pip3 install --no-cache-dir -e . \
@@ -55,6 +54,9 @@ RUN mkdir /opt/intelmq/etc/manager/ \
     && chgrp www-data /opt/intelmq/etc/*.conf /opt/intelmq/etc/manager/positions.conf \
     && chmod g+w /opt/intelmq/etc/*.conf /opt/intelmq/etc/manager/positions.conf
 
+ADD entrypoint.sh /opt/entrypoint.sh
+RUN chmod +x /opt/entrypoint.sh
+
 USER intelmq
 
-ENTRYPOINT [ "entrypoint.sh" ]
+ENTRYPOINT [ "/opt/entrypoint.sh" ]
