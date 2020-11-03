@@ -26,7 +26,7 @@ services:
         volumes: 
             - ./example_config/intelmq/etc:/opt/intelmq/etc
             - ./example_config/intelmq-manager:/opt/intelmq-manager/config
-            - ./example_config/intelmq/var/log:/opt/intelmq/var/log
+            - ./intelmq_logs:/opt/intelmq/var/log
             - ./example_config/intelmq/var/lib:/opt/intelmq/var/lib
         ports: 
             - 1337:8080
