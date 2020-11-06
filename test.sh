@@ -1,9 +1,9 @@
 #!/bin/bash
-sudo docker run --rm -d --name="intelmq_test_redis" -p 6379:6379 -v ~/intelmq-docker/example_config/redis/redis.conf:/redis.conf redis:latest
+redis_id=$(sudo docker run --rm -d -p 6379:6379 -v ~/intelmq-docker/example_config/redis/redis.conf:/redis.conf redis:latest)
 
-redis_ip=$(sudo docker inspect -f '{{ range.NetworkSettings.Networks }}{{ .IPAddress }}{{ end }}' intelmq_test_redis)
+redis_ip=$(sudo docker inspect -f '{{ range.NetworkSettings.Networks }}{{ .IPAddress }}{{ end }}' $redis_id)
 
-sudo docker run --rm --name="intelmq_test_intelmq" -v ~/intelmq-docker/example_config/intelmq/etc:/opt/intelmq/etc \
+sudo docker run --rm -v ~/intelmq-docker/example_config/intelmq/etc:/opt/intelmq/etc \
     -v ~/intelmq-docker/example_config/intelmq-manager:/opt/intelmq-manager/config \
     -v ~/intelmq-docker/intelmq_logs:/opt/intelmq/var/log \
     -v ~/intelmq-docker/example_config/intelmq/var/lib:/opt/intelmq/var/lib \
@@ -13,4 +13,4 @@ sudo docker run --rm --name="intelmq_test_intelmq" -v ~/intelmq-docker/example_c
     -e "INTELMQ_REDIS_CACHE_HOST=$redis_ip" \
     -e "INTELMQ_MANAGER_CONFIG=\"/opt/intelmq-manager/config/config.json\"" \
     intelmq-full:1.0 selftest
-sudo docker container stop intelmq_test_redis
+sudo docker container stop $redis_id
