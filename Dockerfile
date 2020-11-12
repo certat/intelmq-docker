@@ -49,11 +49,6 @@ RUN cd /opt/intelmq-manager \
     && pip3 install hug mako \
     && pip3 install --no-cache-dir -e .
 
-RUN mkdir /opt/intelmq/etc/manager/ \
-    && touch /opt/intelmq/etc/manager/positions.conf \
-    && chgrp www-data /opt/intelmq/etc/*.conf /opt/intelmq/etc/manager/positions.conf \
-    && chmod g+w /opt/intelmq/etc/*.conf /opt/intelmq/etc/manager/positions.conf
-
 ADD entrypoint.sh /opt/entrypoint.sh
 RUN chmod +x /opt/entrypoint.sh
 

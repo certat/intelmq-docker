@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ $1 == 'selftest' ]
+if [[ $1 == "selftest" ]]
 then
     cd /opt/intelmq && nosetests3
 else
