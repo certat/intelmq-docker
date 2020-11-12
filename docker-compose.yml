@@ -27,7 +27,7 @@ services:
             - ./example_config/intelmq/etc:/opt/intelmq/etc
             - ./example_config/intelmq-manager:/opt/intelmq-manager/config
             - ./intelmq_logs:/opt/intelmq/var/log
-            - ./example_config/intelmq/var/lib:/opt/intelmq/var/lib
+            - ./example_config/intelmq/var/lib/bot:/opt/intelmq/var/lib/bot
         ports: 
             - 127.0.0.1:1337:8080/tcp
         depends_on: 
@@ -48,3 +48,4 @@ networks:
         driver: bridge
     intelmq-database:
         driver: bridge
+        
