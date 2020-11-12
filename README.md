@@ -15,6 +15,7 @@ If you do have any questions / feedback / questions, please open an issue :)
 0. `sudo docker pull certat/intelmq-full:1.0`
 0. `chown -R $USER:$USER example_config`
 0. `sudo docker-compose up`
+0. Open your favourite browser -> Go to `http://127.0.0.1:1337/`
 
 If you want to build/deploy/test this container run 
 1. `chmod +x build.sh`
