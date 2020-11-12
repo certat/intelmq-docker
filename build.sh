@@ -3,6 +3,7 @@ build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
 git_ref_core=$(cd ../intelmq && git rev-parse --short HEAD)
 git_ref_manager=$(cd ../intelmq-manager && git rev-parse --short HEAD)
 build_version="1.0"
+
 echo Building new IntelMQ-Image v$build_version
 echo Core      : $git_ref_core
 echo Manager   : $git_ref_manager
