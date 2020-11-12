@@ -11,4 +11,4 @@ currently being supported with security updates.
 
 ## Reporting a Vulnerability
 
-In case you find security-relevant bugs in IntelMQ, please contact team@cert.at. More information including the PGP key can be found on CERT.at's website.
+In case you find security-relevant bugs in IntelMQ, please contact team@cert.at. More information including the PGP key can be found on [CERT.at](https://www.cert.at/en/about-us/contact/)'s website.
