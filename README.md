@@ -3,6 +3,9 @@
 **ATTENTION** This docker image is not docker compliant. **THIS** is just for beta usage & information gathering.
 Do not run this software in production, it might break.
 
+# Information
+This repository is currently maintained by Sebastian Waldbauer (@waldbauer-certat).
+
 If you do have any questions / feedback / questions, please open an issue :)
 
 ## Fastest way to run & deploy
