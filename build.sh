@@ -13,7 +13,7 @@ cp -r ../intelmq ./intelmq
 cp -r ../intelmq-manager ./intelmq-manager
 
 docker build --build-arg BUILD_DATE=$build_date \
-    --build-arg VCS_REF="$git_ref_core, $git_ref_manager" \
+    --build-arg VCS_REF="IntelMQ=$git_ref_core, IntelMQ-Manager=$git_ref_manager" \
     --build-arg BUILD_VERSION=$build_version \
     -f Dockerfile \
     -t intelmq-full:$build_version .
