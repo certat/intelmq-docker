@@ -5,21 +5,13 @@ ARG BUILD_DATE
 ARG VCS_REF
 ARG BUILD_VERSION
 
-LABEL maintainer="Sebastian Waldbauer <waldbauer@cert.at>" \
+LABEL maintainer="IntelMQ Team <intelmq-team@cert.at>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.name="certat/intelmq-full" \
       org.label-schema.description="IntelMQ with core & manager" \
       org.label-schema.url="https://intelmq.org/" \
       org.label-schema.vcs-url="https://github.com/certat/intelmq-docker.git" \
-      org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.vendor="CERT.AT" \
-      org.label-schema.version=$BUILD_VERSION
-
-COPY ./intelmq /opt/intelmq
-COPY ./intelmq-manager /opt/intelmq-manager
-
-WORKDIR /opt
+      org.label-schema.vendor="CERT.AT"
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -33,6 +25,16 @@ RUN apt-get update \
     python3-setuptools \
     python3-pip \
     && rm -rf /var/lib/apt/lists/*
+
+LABEL org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.version=$BUILD_VERSION
+
+
+COPY ./intelmq /opt/intelmq
+COPY ./intelmq-manager /opt/intelmq-manager
+
+WORKDIR /opt
 
 RUN useradd -d /opt/intelmq -U -s /bin/bash intelmq \
     && adduser intelmq sudo \ 
