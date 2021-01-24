@@ -10,26 +10,26 @@ services:
         restart: always
         networks:
             - intelmq-network
-    postgres: 
-        image: postgres:latest
+    nginx:
+        image: intelmq-nginx:latest
         restart: always
-        environment:
-            POSTGRES_PASSWORD: test
-            POSTGRES_USER: root
-            POSTGRES_DB: test
-        networks:
-            - intelmq-database
-
-# IntelMQ with IntelMQ-Manager!
-    intelmq-full:
-        image: certat/intelmq-full:1.0
+        networks: 
+            - intelmq-network
+        ports: 
+            - 1337:80
         volumes: 
-            - ./example_config/intelmq/etc:/opt/intelmq/etc
-            - ./example_config/intelmq-manager:/opt/intelmq-manager/config
+            - ./example_config/nginx/html:/www
+        depends_on: 
+            - intelmq
+        links: 
+            - intelmq
+    intelmq:
+        image: intelmq-full:1.0
+        volumes: 
+            - ./example_config/intelmq/etc/:/opt/intelmq/etc/
+            - ./example_config/intelmq-api:/opt/intelmq-api/config
             - ./intelmq_logs:/opt/intelmq/var/log
             - ./example_config/intelmq/var/lib/bot:/opt/intelmq/var/lib/bot
-        ports: 
-            - 127.0.0.1:1337:8080/tcp
         depends_on: 
             - redis
             - postgres
@@ -38,14 +38,9 @@ services:
             INTELMQ_PIPELINE_DRIVER: "redis"
             INTELMQ_PIPELINE_HOST: redis
             INTELMQ_REDIS_CACHE_HOST: redis
-            INTELMQ_MANAGER_CONFIG: "/opt/intelmq-manager/config/config.json"
         networks:
             - intelmq-network
-            - intelmq-database
 
 networks:
     intelmq-network:
         driver: bridge
-    intelmq-database:
-        driver: bridge
-        

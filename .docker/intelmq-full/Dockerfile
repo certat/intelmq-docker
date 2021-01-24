@@ -6,12 +6,13 @@ ARG VCS_REF
 ARG BUILD_VERSION
 
 LABEL maintainer="IntelMQ Team <intelmq-team@cert.at>" \
-      org.label-schema.schema-version="1.0" \
-      org.label-schema.name="certat/intelmq-full" \
-      org.label-schema.description="IntelMQ with core & manager" \
-      org.label-schema.url="https://intelmq.org/" \
-      org.label-schema.vcs-url="https://github.com/certat/intelmq-docker.git" \
-      org.label-schema.vendor="CERT.AT"
+      org.opencontainers.image.authors="IntelMQ-Team <intelmq-team@cert.at>" \
+      org.opencontainers.image.title="intelmq-full" \
+      org.opencontainers.image.description="IntelMQ with core & api" \
+      org.opencontainers.image.url="https://intelmq.org/" \
+      org.opencontainers.image.source="https://github.com/certtools/intelmq.git" \
+      org.opencontainers.image.documentation="https://intelmq.readthedocs.io/en/latest/" \
+      org.opencontainers.image.vendor="intelmq-team"
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -26,15 +27,14 @@ RUN apt-get update \
     python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
-LABEL org.label-schema.build-date=$BUILD_DATE \
-      org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.version=$BUILD_VERSION
-
-
-COPY ./intelmq /opt/intelmq
-COPY ./intelmq-manager /opt/intelmq-manager
+LABEL org.opencontainers.image.created=$BUILD_DATE \
+      org.opencontainers.image.revision=$VCS_REF \
+      org.opencontainers.image.version=$BUILD_VERSION
 
 WORKDIR /opt
+
+COPY ./intelmq /opt/intelmq
+COPY ./intelmq-api /opt/intelmq-api
 
 RUN useradd -d /opt/intelmq -U -s /bin/bash intelmq \
     && adduser intelmq sudo \ 
@@ -43,17 +43,14 @@ RUN useradd -d /opt/intelmq -U -s /bin/bash intelmq \
 
 ### Install IntelMQ
 RUN cd /opt/intelmq \
+    && pip3 install hug \
     && pip3 install --no-cache-dir -e . \
     && intelmqsetup
 
-### Install IntelMQ-Manager (python)
-RUN cd /opt/intelmq-manager \
-    && pip3 install hug mako \
-    && pip3 install --no-cache-dir -e .
-
 ADD entrypoint.sh /opt/entrypoint.sh
-RUN chmod +x /opt/entrypoint.sh
+RUN chmod +x /opt/entrypoint.sh \
+    && chown intelmq:intelmq /opt/entrypoint.sh
 
-USER intelmq
+USER intelmq:intelmq
 
 ENTRYPOINT [ "/opt/entrypoint.sh" ]

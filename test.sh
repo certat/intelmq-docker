@@ -4,13 +4,12 @@ redis_id=$(sudo docker run --rm -d -p 6379:6379 -v ~/intelmq-docker/example_conf
 redis_ip=$(sudo docker inspect -f '{{ range.NetworkSettings.Networks }}{{ .IPAddress }}{{ end }}' $redis_id)
 
 sudo docker run --rm -v ~/intelmq-docker/example_config/intelmq/etc:/opt/intelmq/etc \
-    -v ~/intelmq-docker/example_config/intelmq-manager:/opt/intelmq-manager/config \
+    -v ~/intelmq-docker/example_config/intelmq_api:/opt/intelmq_api/config \
     -v ~/intelmq-docker/intelmq_logs:/opt/intelmq/var/log \
     -v ~/intelmq-docker/example_config/intelmq/var/lib:/opt/intelmq/var/lib \
     -e "INTELMQ_IS_DOCKER=\"true\"" \
     -e "INTELMQ_PIPELINE_DRIVER=\"redis\"" \
     -e "INTELMQ_PIPELINE_HOST=$redis_ip" \
     -e "INTELMQ_REDIS_CACHE_HOST=$redis_ip" \
-    -e "INTELMQ_MANAGER_CONFIG=\"/opt/intelmq-manager/config/config.json\"" \
     intelmq-full:1.0 selftest
 sudo docker container stop $redis_id

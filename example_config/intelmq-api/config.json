@@ -1,0 +1,7 @@
+{
+    "intelmq_ctl_cmd": ["intelmqctl"],
+    "allowed_path": "/opt/intelmq/var/lib/bots/",
+    "session_duration": 86400,
+    "allow_origins": ["*"],
+    "html_dir": ""
+}
