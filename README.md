@@ -25,7 +25,7 @@ If you want to build/deploy/test this container run
 0. `chmod +x test.sh`
 0. `chmod +x publish.sh`
 
-**!ATTENTATION!** Only [CERT.AT](https://cert.at/) employee's/maintainer can publish on `cerat/` repository. Change this in `publish.sh`
+**!ATTENTION!** Only [CERT.AT](https://cert.at/) employee's/maintainer can publish on the `certat/` repository. Change this in `publish.sh`
 
 ## How to develop new features & build containers?
 **ATTENTION** Make sure to change `certat/intelmq-full:1.0` to `intelmq-full:1.0` in `docker-compose.yml`
