@@ -32,9 +32,7 @@ services:
             - ./example_config/intelmq/var/lib/bot:/opt/intelmq/var/lib/bot
         depends_on: 
             - redis
-            - postgres
         environment: 
-            INTELMQ_IS_DOCKER: "true"
             INTELMQ_PIPELINE_DRIVER: "redis"
             INTELMQ_PIPELINE_HOST: redis
             INTELMQ_REDIS_CACHE_HOST: redis

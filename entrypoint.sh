@@ -1,4 +1,5 @@
 #!/bin/bash
+INTELMQ_IS_DOCKER=1
 if [[ $1 == "selftest" ]]
 then
     INTELMQ_TEST_EXOTIC=1
