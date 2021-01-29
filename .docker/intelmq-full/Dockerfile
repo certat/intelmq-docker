@@ -14,17 +14,23 @@ LABEL maintainer="IntelMQ Team <intelmq-team@cert.at>" \
       org.opencontainers.image.documentation="https://intelmq.readthedocs.io/en/latest/" \
       org.opencontainers.image.vendor="intelmq-team"
 
+
+###
+# libfuzzy-dev is used for pydeep
+#
+#
+#
+#
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     sudo \
     gcc \
+    rsync \
     python3-nose \
-    python3-yaml \
-    python3-cerberus \
-    python3-requests-mock \
     python3-dev \
     python3-setuptools \
     python3-pip \
+    libfuzzy-dev \
     && rm -rf /var/lib/apt/lists/*
 
 LABEL org.opencontainers.image.created=$BUILD_DATE \
@@ -43,7 +49,8 @@ RUN useradd -d /opt/intelmq -U -s /bin/bash intelmq \
 
 ### Install IntelMQ
 RUN cd /opt/intelmq \
-    && pip3 install hug \
+    && pip3 install hug bs4 pika validators textx lxml url-normalize geolib pyasn pyyaml requests-mock cerberus imbox tld \
+    && pip3 install --force pymisp[fileobjects,openioc,virustotal] \
     && pip3 install --no-cache-dir -e . \
     && intelmqsetup
 
