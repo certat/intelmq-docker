@@ -23,7 +23,7 @@ docker build --build-arg BUILD_DATE=$build_date \
     -t intelmq-nginx:latest .
 
 docker build --build-arg BUILD_DATE=$build_date \
-    --build-arg VCS_REF="IntelMQ=$git_ref_core, IntelMQ-API=$git_ref_api" \
+    --build-arg VCS_REF="IntelMQ=$git_ref_core, IntelMQ-API=$git_ref_api, IntelMQ-Manager=$git_ref_manager" \
     --build-arg BUILD_VERSION=$build_version \
     -f ./.docker/intelmq-full/Dockerfile \
     -t intelmq-full:$build_version \
