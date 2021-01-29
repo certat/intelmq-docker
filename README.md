@@ -11,11 +11,10 @@ If you do have any questions / feedback / questions, please open an issue :)
 ## Fastest way to run & deploy
 
 1. `cd ~`
-0. `mkdir intelmq_logs`
 0. `sudo apt update && sudo apt upgrade -y && sudo apt install docker.io git docker-compose`
-0. `git clone https://github.com/certat/intelmq-docker.git`
+0. `git clone https://github.com/certat/intelmq-docker.git --recursive`
 0. `cd intelmq-docker`
-0. `sudo docker pull certat/intelmq-full:1.0`
+0. `sudo docker pull certat/intelmq-full:1.0` or `sudo docker pull certat/intelmq-full:latest`
 0. `sudo docker pull certat/intelmq-nginx:latest`
 0. `sudo docker-compose up`
 0. Open your favourite browser -> Go to `http://127.0.0.1:1337/`
@@ -30,11 +29,9 @@ If you want to build/deploy/test this container run
 ## How to develop new features & build containers?
 **ATTENTION** Make sure to change `certat/intelmq-full:1.0` to `intelmq-full:1.0` in `docker-compose.yml`
 
-1. `cd ~`
-0. `git clone https://github.com/certtools/intelmq.git`
-0. `git clone https://github.com/certtools/intelmq-manager`
+Start making your changes in `intelmq`, `intelmq-api` or `intelmq-manager`.
 
-Now you can start making changes to source code. If you're finished and ready to test within your docker enviroment
+If you're finished and ready to test within your docker enviroment
 1. `cd ~/intelmq-docker`
 0. `sudo ./build.sh`
 
