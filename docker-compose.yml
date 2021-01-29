@@ -8,17 +8,13 @@ services:
             - redis-server
             - /usr/local/etc/redis/redis.conf
         restart: always
-        networks:
-            - intelmq-network
     nginx:
         image: intelmq-nginx:latest
         restart: always
-        networks: 
-            - intelmq-network
         ports: 
             - 1337:80
         volumes: 
-            - ./example_config/nginx/html:/www
+            - ./intelmq-manager/html:/www
         depends_on: 
             - intelmq
         links: 
@@ -36,9 +32,5 @@ services:
             INTELMQ_PIPELINE_DRIVER: "redis"
             INTELMQ_PIPELINE_HOST: redis
             INTELMQ_REDIS_CACHE_HOST: redis
-        networks:
-            - intelmq-network
-
-networks:
-    intelmq-network:
-        driver: bridge
+        links:
+            - redis
