@@ -11,16 +11,10 @@ echo Manager   : $git_ref_manager
 echo Api       : $git_ref_api
 echo Build_date: $build_date
 
-cp -R ../intelmq ./intelmq
-
 # build static html
-cp -R ../intelmq-manager ./intelmq-manager
 cd ./intelmq-manager \
     && python3 setup.py build \
-    && cp -R ./html ../example_config/nginx/html \
     && cd ..
-
-cp -R ../intelmq-api ./intelmq-api
 
 docker build --build-arg BUILD_DATE=$build_date \
     --build-arg VCS_REF="IntelMQ-Manager=$git_ref_manager" \
@@ -32,4 +26,5 @@ docker build --build-arg BUILD_DATE=$build_date \
     --build-arg VCS_REF="IntelMQ=$git_ref_core, IntelMQ-API=$git_ref_api" \
     --build-arg BUILD_VERSION=$build_version \
     -f ./.docker/intelmq-full/Dockerfile \
-    -t intelmq-full:$build_version .
+    -t intelmq-full:$build_version \
+    -t intelmq-full:latest .
