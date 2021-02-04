@@ -14,8 +14,7 @@ If you do have any questions / feedback / questions, please open an issue :)
 0. `sudo apt update && sudo apt upgrade -y && sudo apt install docker.io git docker-compose`
 0. `git clone https://github.com/certat/intelmq-docker.git --recursive`
 0. `cd intelmq-docker`
-0. `sudo docker pull certat/intelmq-full:1.0` or `sudo docker pull certat/intelmq-full:latest`
-0. `sudo docker pull certat/intelmq-nginx:latest`
+0. `sudo docker-compose pull`
 0. `sudo docker-compose up`
 0. Open your favourite browser -> Go to `http://127.0.0.1:1337/`
 
