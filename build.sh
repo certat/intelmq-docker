@@ -28,3 +28,7 @@ docker build --build-arg BUILD_DATE=$build_date \
     -f ./.docker/intelmq-full/Dockerfile \
     -t intelmq-full:$build_version \
     -t intelmq-full:latest .
+
+cd ./intelmq-manager \
+    && rm -r html \
+    && cd ..
