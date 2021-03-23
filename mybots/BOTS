@@ -1,0 +1,17 @@
+{
+        "Collector": {
+        },
+        "Parser": {
+        },
+        "Expert": {
+                  "Example": {
+                    "description": "Example own bot.",
+                    "module": "intelmq.bots.experts.example.expert",
+                    "parameters": {
+                    }
+                }
+        },
+        "Output": {
+
+        }
+}

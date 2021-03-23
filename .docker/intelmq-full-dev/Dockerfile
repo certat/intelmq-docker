@@ -3,12 +3,21 @@ FROM certat/intelmq-full:1.0
 MAINTAINER Einar <elanfranco@cert.unlp.edu.ar>
 MAINTAINER Jeremias <jpretto@cert.unlp.edu.ar>
 
+USER root
 
-#ADD dev_intelmq /opt/dev_intelmq
-ADD entrypoint /usr/bin/entrypoint
-ADD update /usr/bin/update
+ADD entrypoint_dev.sh /opt/dev/entrypoint_dev.sh
+ADD update.sh /opt/dev/update.sh
+ADD merge_BOTS.py /opt/dev/merge_BOTS.py
 
-RUN chmod +x /usr/bin/entrypoint /usr/bin/update
+# Merge bots for merge_BOTS.py
+RUN python3 -m pip install jsonmerge
 
-ENTRYPOINT ["entrypoint"]
+
+# Permission denied when installing new bots
+RUN chown -R intelmq:intelmq /opt/intelmq/intelmq.egg-info
+
+USER intelmq:intelmq
+ENV PATH="/opt/intelmq/.local/bin:${PATH}"
+
+ENTRYPOINT ["/opt/dev/entrypoint_dev.sh"]
 
