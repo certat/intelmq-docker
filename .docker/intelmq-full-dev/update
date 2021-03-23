@@ -1,0 +1,9 @@
+#!/bin/bash
+cp -a /mybots/bots/* /opt/intelmq/dev_intelmq/intelmq/bots/
+cd /opt/dev_intelmq && pip3 install -e .
+echo "Install requirements for bots in dev repository"
+for file in $(find /intelmq-bots/ -name "*REQUIREMENTS.txt"); do pip3 install -r $file; done
+chown -R intelmq:intelmq /opt/intelmq/
+chown -R intelmq.www-data /opt/intelmq/etc/;
+chmod -R g+w  /opt/intelmq
+su - intelmq -s /bin/bash -c 'intelmqctl upgrade-config'

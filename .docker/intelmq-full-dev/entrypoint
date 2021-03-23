@@ -1,0 +1,48 @@
+#!/bin/bash
+
+function check_config_files {
+
+	echo "Checking for configuration files"
+	for i in $(find /intelmq-bots/etc/ -name "*.conf"); do
+		if [[ ! -f /opt/intelmq/etc/$(basename $i) ]]; then
+			cp $i /opt/intelmq/etc/;
+		fi;
+	done;
+	if [[ ! -f /opt/intelmq/etc/manager/positions.conf ]]; then
+			cp -a /intelmq-bots/etc/manager /opt/intelmq/etc/;
+	fi;
+	chown -R intelmq.www-data /opt/intelmq/etc/;
+
+ }
+
+if [[ ! -z "${DEV}" ]]; then
+  update
+else
+	echo "Mixing bots"
+	if [[ ! -z "${REPO_UPDATE}" ]]; then
+		rm -fr /intelmq-bots
+		git clone ${REPO_UPDATE} /intelmq-bots
+		cp -a intelmq-bots/bots/BOTS /opt/intelmq/etc/
+		check_config_files
+		update
+	else
+		check_config_files
+	fi
+fi
+
+if [ "${LOG_MAIL_ENABLED}" = "true" ]; then
+    sed -i "s/return\ logger/### Code added to fix unexistent mail handler ###\n    mail_handler=logging.handlers.SMTPHandler(mailhost = ('${LOG_MAIL_MAILHOST}', ${LOG_MAIL_PORT}),fromaddr = '${LOG_MAIL_FROMADDR}',toaddrs = ['${LOG_MAIL_TOADDR}'],subject = '${LOG_MAIL_SUBJECT}',credentials = ${LOG_MAIL_CREDENTIALS}, secure = ${LOG_MAIL_SECURE} )\n    mail_handler.setLevel(${LOG_MAIL_LEVEL})\n    mail_handler.setFormatter(logging.Formatter(LOG_FORMAT))\n    logger.addHandler(mail_handler)\n    aux_logger = logger\n    return aux_logger\n    ### End code added to fix unexistent mail handler ###/g" /opt/dev_intelmq/intelmq/lib/utils.py
+fi
+
+
+if [ "${ENABLE_BOTNET_AT_BOOT}" = "true" ]; then
+	su - intelmq -s /bin/bash -c 'intelmqctl start'
+fi
+
+
+# Requirements TeamCymru Bots
+sed -i 's/MinProtocol = TLSv1.2/MinProtocol = TLSv1.0/' /etc/ssl/openssl.cnf
+
+
+/opt/entrypoint.sh
+
