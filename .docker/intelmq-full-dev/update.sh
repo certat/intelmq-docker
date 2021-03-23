@@ -1,4 +1,5 @@
 #!/bin/bash
+
 echo "Installing requirements for bots in dev repository"
 for file in $(find /opt/dev/mybots -name "*REQUIREMENTS.txt"); do pip3 install -r $file; done
 

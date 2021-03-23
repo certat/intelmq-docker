@@ -37,7 +37,7 @@ services:
             INTELMQ_PIPELINE_HOST: redis
             INTELMQ_REDIS_CACHE_HOST: redis
             # Mail handler
-            LOG_MAIL_ENABLED: false
+            LOG_MAIL_ENABLED: "false"
             LOG_MAIL_LEVEL: "logging.ERROR"
             LOG_MAIL_MAILHOST: "mail.example.unlp.edu.ar"
             LOG_MAIL_PORT: 25
@@ -47,7 +47,7 @@ services:
             LOG_MAIL_CREDENTIALS: None #tuple (username, password)
             LOG_MAIL_SECURE: None
             # Start botnet at boot
-            ENABLE_BOTNET_AT_BOOT: true
+            ENABLE_BOTNET_AT_BOOT: "true"
         networks:
             - intelmq-internal
 
