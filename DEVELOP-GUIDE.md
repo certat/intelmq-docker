@@ -40,6 +40,6 @@ Just clone your bots git to ./mybots and run the container
 
 For example, using https://github.com/CERTUNLP/intelmq-bots:
 
-1. `git clone https://github.com/CERTUNLP/intelmq-bots mybots`
+1. `git clone https://github.com/CERTUNLP/intelmq-bots mybots -b 2.3`
 0. `docker-compose -f docker-compose-dev.yml up`
 
