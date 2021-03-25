@@ -14,9 +14,19 @@ If you do have any questions / feedback / questions, please open an issue :)
 0. `sudo apt update && sudo apt upgrade -y && sudo apt install docker.io git docker-compose`
 0. `git clone https://github.com/certat/intelmq-docker.git --recursive`
 0. `cd intelmq-docker`
-0. `sudo docker-compose pull`
-0. `sudo docker-compose up`
-0. Open your favourite browser -> Go to `http://127.0.0.1:1337/`
+0. `docker-compose pull`
+0. `cd intelmq-manager`
+0. `python3 setup.py`
+0. `cd ..`
+2. `docker-compose up`
+3. Open your favourite browser -> Go to `http://127.0.0.1:1337/`
+
+## For developers 
+
+Please take a look to DEVELOP-GUIDE.md
+
+
+## Build and deploy new images
 
 If you want to build/deploy/test this container run 
 1. `chmod +x build.sh`
