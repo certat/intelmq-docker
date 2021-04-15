@@ -8,36 +8,34 @@ services:
             - redis-server
             - /usr/local/etc/redis/redis.conf
         restart: always
-        networks: 
+        networks:
             - intelmq-internal
     nginx:
         image: certat/intelmq-nginx:latest
         restart: always
-        ports: 
+        ports:
             - 1337:80
-        volumes: 
-            - ./intelmq-manager/html:/www
-        depends_on: 
+        depends_on:
             - intelmq
-        networks: 
+        networks:
             - intelmq-internal
     intelmq:
         image: certat/intelmq-full:1.0
-        volumes: 
+        volumes:
             - ./example_config/intelmq/etc/:/opt/intelmq/etc/
             - ./example_config/intelmq-api:/opt/intelmq-api/config
             - ./intelmq_logs:/opt/intelmq/var/log
             - ./intelmq_output:/opt/intelmq/var/lib/bots
             - ./example_config/intelmq/var/lib/bot:/opt/intelmq/var/lib/bot
-        depends_on: 
+        depends_on:
             - redis
-        environment: 
+        environment:
             INTELMQ_PIPELINE_DRIVER: "redis"
             INTELMQ_PIPELINE_HOST: redis
             INTELMQ_REDIS_CACHE_HOST: redis
-        networks: 
+        networks:
             - intelmq-internal
 
-networks: 
+networks:
     intelmq-internal:
         driver: bridge
