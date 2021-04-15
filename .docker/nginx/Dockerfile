@@ -22,3 +22,4 @@ WORKDIR /www
 
 COPY .docker/nginx/config/app.conf /etc/nginx/conf.d/default.conf
 COPY .docker/nginx/config/nginx.conf /etc/nginx/nginx.conf
+COPY intelmq-manager/html/ /www/
