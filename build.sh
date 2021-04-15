@@ -1,9 +1,9 @@
 #!/bin/bash
 build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-git_ref_core=$(cd ./intelmq && git rev-parse --short HEAD)
-git_ref_manager=$(cd ./intelmq-manager && git rev-parse --short HEAD)
-git_ref_api=$(cd ./intelmq-api && git rev-parse --short HEAD)
-build_version="2.3.1"
+git_ref_core=$(cd ./intelmq && git describe --long)
+git_ref_manager=$(cd ./intelmq-manager && git describe --long)
+git_ref_api=$(cd ./intelmq-api && git describe --long)
+build_version=$(cd ./intelmq && git describe)
 
 echo Building new IntelMQ-Image v$build_version
 echo Core      : $git_ref_core
@@ -26,7 +26,6 @@ docker build --build-arg BUILD_DATE=$build_date \
     --build-arg VCS_REF="IntelMQ=$git_ref_core, IntelMQ-API=$git_ref_api, IntelMQ-Manager=$git_ref_manager" \
     --build-arg BUILD_VERSION=$build_version \
     -f ./.docker/intelmq-full/Dockerfile \
-    -t intelmq-full:$build_version \
     -t intelmq-full:latest .
 
 cd ./intelmq-manager \
