@@ -2,11 +2,14 @@
 
 ## Run & deploy containers in dev mode:
 
+0. `cd intelmq-manager`
+0. `python3 setup.py`
+0. `cd ..`
 1. `docker-compose -f docker-compose-dev.yml up`
 
 ## Docker-compose-dev.yml file
 
-### Volume:  
+### Volume:
 
 **./mybots:/opt/dev/mybots** -> this is the folder where your source code need to be, you could see one expert example in mybots/bots/experts/example and a BOTS json definition file containing the default configuration for example expert.
 
@@ -24,7 +27,7 @@ Just run /opt/dev/update.sh in the container:
 When you do this:
 
 * Yours BOTS files will be mixed with intelmq original BOTS and the copied to runtime environment
-* Yours bots will be installed 
+* Yours bots will be installed
 
 ### Additional environment variables
 
@@ -42,4 +45,3 @@ For example, using https://github.com/CERTUNLP/intelmq-bots:
 
 1. `git clone https://github.com/CERTUNLP/intelmq-bots mybots -b 2.3`
 0. `docker-compose -f docker-compose-dev.yml up`
-
