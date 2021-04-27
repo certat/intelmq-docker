@@ -41,6 +41,14 @@
                 "rate_limit": 300
             }
         },
+        "Kafka": {
+            "description": "Fetch data from the Apache Kafka distributed stream processing system.",
+            "module": "intelmq.bots.collectors.kafka.collector",
+            "parameters": {
+                "bootstrap_servers": "localhost:9092",
+                "topic": "<topic>"
+            }
+        },
         "Mail Attachment Fetcher": {
             "description": "Monitor IMAP mailboxes and retrieve mail attachments.",
             "module": "intelmq.bots.collectors.mail.collector_mail_attach",
@@ -100,6 +108,7 @@
             "module": "intelmq.bots.collectors.http.collector_http",
             "parameters": {
                 "extract_files": false,
+                "gpg_keyring": null,
                 "http_password": null,
                 "http_url": "<insert url of feed>",
                 "http_url_formatting": false,
@@ -107,10 +116,10 @@
                 "name": "__FEED__",
                 "provider": "__PROVIDER__",
                 "rate_limit": 3600,
+                "signature_url": null,
+                "signature_url_formatting": false,
                 "ssl_client_certificate": null,
-                "verify_gpg_signatures": false,
-                "gpg_signature_suffix": ".asc",
-                "gpg_keyring": null
+                "verify_pgp_signatures": false
             }
         },
         "URL Stream Fetcher": {
@@ -242,12 +251,12 @@
             "description": "Collect data from ESET's TAXII API",
             "module": "intelmq.bots.collectors.eset.collector",
             "parameters": {
-                "username": "<username>",
-                "password": "<password>",
+                "collection": "<collection>",
                 "endpoint": "eti.eset.com",
-                "time_delta": 3600,
+                "password": "<password>",
                 "rate_limit": 3600,
-                "collection": "<collection>"
+                "time_delta": 3600,
+                "username": "<username>"
             }
         },
         "Github API": {
@@ -303,6 +312,21 @@
                 "redis_cache_password": null,
                 "redis_cache_port": 6379,
                 "redis_cache_ttl": 604800
+            }
+        },
+        "Shadowserver Reports API": {
+            "description": "Connects to the Shadowserver API, requests a list of all the reports for a specific country and processes the ones that are new.",
+            "module": "intelmq.bots.collectors.shadowserver.collector_reports_api",
+            "parameters": {
+                "country": "<CC>",
+                "api_key": "<API key>",
+                "secret": "<API secret>",
+                "types": "<single report or list of reports>",
+                "rate_limit": 86400,
+                "redis_cache_db": 12,
+                "redis_cache_host": "127.0.0.1",
+                "redis_cache_port": 6379,
+                "redis_cache_ttl": 864000
             }
         },
         "Shodan Stream": {
@@ -407,6 +431,16 @@
             "module": "intelmq.bots.parsers.ci_army.parser",
             "parameters": {}
         },
+        "CZ.NIC HaaS": {
+            "description": "CZ.NIC HaaS Parser is the bot responsible to parse the report and sanitize the information.",
+            "module": "intelmq.bots.parsers.cznic.parser_haas",
+            "parameters": {}
+        },
+        "CZ.NIC Proki": {
+            "description": "Parse the feed from malicious IP addresses on Czech networks.",
+            "module": "intelmq.bots.parsers.cznic.parser_proki",
+            "parameters": {}
+        },
         "CertStream": {
             "description": "Parse the CertStream feed.",
             "module": "intelmq.bots.parsers.calidog.parser_certstream",
@@ -425,11 +459,6 @@
         "Cymru Full Bogons": {
             "description": "Parse the Cymru Full Bogons feed.",
             "module": "intelmq.bots.parsers.cymru.parser_full_bogons",
-            "parameters": {}
-        },
-        "CZ.NIC HaaS": {
-            "description": "CZ.NIC HaaS Parser is the bot responsible to parse the report and sanitize the information.",
-            "module": "intelmq.bots.parsers.cznic.parser_haas",
             "parameters": {}
         },
         "DShield AS": {
@@ -481,6 +510,7 @@
                     "",
                     "source.fqdn"
                 ],
+                "compose_fields": null,
                 "default_url_protocol": "http://",
                 "delimiter": ",",
                 "filter_text": null,
@@ -532,6 +562,17 @@
                 "splitlines": false
             }
         },
+        "Key-Value": {
+            "description": "Parse key=value strings.",
+            "module": "intelmq.bots.parsers.key_value.parser",
+            "parameters": {
+                "keys": {},
+                "kv_separator": "=",
+                "pair_separator": " ",
+                "strip_quotes": true,
+                "timestamp_key": null
+            }
+        },
         "MISP": {
             "description": "Parse MISP events.",
             "module": "intelmq.bots.parsers.misp.parser",
@@ -540,11 +581,6 @@
         "Malc0de": {
             "description": "Parse the Malc0de IP feed in either IP Blacklist, Windows Format or Bind format.",
             "module": "intelmq.bots.parsers.malc0de.parser",
-            "parameters": {}
-        },
-        "Malware Domain List": {
-            "description": "Parse the Malware Domain List feed.",
-            "module": "intelmq.bots.parsers.malwaredomainlist.parser",
             "parameters": {}
         },
         "Malware Domains": {
@@ -604,9 +640,17 @@
             "module": "intelmq.bots.parsers.phishtank.parser",
             "parameters": {}
         },
-        "ShadowServer": {
-            "description": "Parse all ShadowServer feeds.",
+        "Shadowserver CSV": {
+            "description": "Parse Shadowserver feeds in CSV format.",
             "module": "intelmq.bots.parsers.shadowserver.parser",
+            "parameters": {
+                "feedname": "",
+                "overwrite": true
+            }
+        },
+        "Shadowserver JSON": {
+            "description": "Parse all Shadowserver feeds in JSON format (data coming from the reports API).",
+            "module": "intelmq.bots.parsers.shadowserver.parser_json",
             "parameters": {
                 "feedname": "",
                 "overwrite": true
@@ -729,7 +773,7 @@
             }
         },
         "Deduplicator": {
-            "description": "Detection and drop exact duplicate messages. Message hashes are cached in the Redis datbase.",
+            "description": "Detection and drop exact duplicate messages. Message hashes are cached in the Redis database.",
             "module": "intelmq.bots.experts.deduplicator.expert",
             "parameters": {
                 "filter_keys": "raw,time.observation",
@@ -816,7 +860,8 @@
             "module": "intelmq.bots.experts.gethostbyname.expert",
             "parameters": {
                 "fallback_to_url": true,
-                "gaierrors_to_ignore": null
+                "gaierrors_to_ignore": null,
+                "overwrite": false
             }
         },
         "IDEA Converter": {
@@ -839,9 +884,9 @@
             "module": "intelmq.bots.experts.maxmind_geoip.expert",
             "parameters": {
                 "database": "/opt/intelmq/var/lib/bots/maxmind_geoip/GeoLite2-City.mmdb",
+                "license_key": "<insert Maxmind license key>",
                 "overwrite": false,
-                "use_registered": false,
-                "license_key": "<insert Maxmind license key>"
+                "use_registered": false
             }
         },
         "McAfee Active Response Lookup": {
@@ -853,7 +898,7 @@
             }
         },
         "Modify": {
-            "description": "Perform arbitrary changes to event's fields based on regular-expression-based rules on different values. See docs/Bots.md for some examples.",
+            "description": "Perform arbitrary changes to event's fields based on regular-expression-based rules on different values. See the bot's documentation for some examples.",
             "module": "intelmq.bots.experts.modify.expert",
             "parameters": {
                 "case_sensitive": true,
@@ -900,9 +945,9 @@
             "description": "Adds the Risk Score from RecordedFuture IPRisk associated with source.ip or destination.ip with a local database.",
             "module": "intelmq.bots.experts.recordedfuture_iprisk.expert",
             "parameters": {
+                "api_token": "<insert Recorded Future IPRisk API token>",
                 "database": "/opt/intelmq/var/lib/bots/recordedfuture_iprisk/rfiprisk.dat",
-                "overwrite": false,
-                "api_token": "<insert Recorded Future IPRisk API token>"
+                "overwrite": false
             }
         },
         "Reverse DNS": {
@@ -925,10 +970,53 @@
                 "file": "/opt/intelmq/var/lib/bots/sieve/filter.sieve"
             }
         },
+        "Splunk saved search": {
+            "description": "Enrich an event from Splunk search results.",
+            "module": "intelmq.bots.experts.splunk_saved_search.expert",
+            "parameters": {
+                "auth_token": "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wIG92ZXIgdGhlIGxhenkgZG9nLgo=",
+                "multiple_result_handling": [
+                    "warn",
+                    "use_first",
+                    "send"
+                ],
+                "not_found": [
+                    "warn",
+                    "send"
+                ],
+                "overwrite": null,
+                "result_fields": {
+                    "result field": "event field"
+                },
+                "retry_interval": 5,
+                "saved_search": "search_name",
+                "search_parameters": {
+                    "event field": "search parameter"
+                },
+                "url": "https://splunk:8089/"
+            }
+        },
         "Taxonomy": {
             "description": "Apply the eCSIRT Taxonomy to all events.",
             "module": "intelmq.bots.experts.taxonomy.expert",
             "parameters": {}
+        },
+        "Threshold": {
+            "description": "Check if the number of similar messages during a specified time interval exceeds a set value.",
+            "module": "intelmq.bots.experts.threshold.expert",
+            "parameters": {
+                "add_keys": {
+                    "comment": "Threshold reached"
+                },
+                "filter_keys": "raw,time.observation",
+                "filter_type": "blacklist",
+                "redis_cache_db": "11",
+                "redis_cache_host": "127.0.0.1",
+                "redis_cache_password": null,
+                "redis_cache_port": "6379",
+                "threshold": 100,
+                "timeout": 3600
+            }
         },
         "Tor Nodes": {
             "description": "Check if the IP address is a Tor Exit Node based on a local database of TOR nodes.",
@@ -939,7 +1027,7 @@
             }
         },
         "Wait": {
-            "description": "Wait for a some time or until a queue size is lower than a given numer.",
+            "description": "Wait for a some time or until a queue size is lower than a given number.",
             "module": "intelmq.bots.experts.wait.expert",
             "parameters": {
                 "queue_db": 2,
@@ -1119,24 +1207,24 @@
             "description": "Request Tracker ticket creation bot. Create linked Investigation queue ticket if needed, according to the RTIR flow",
             "module": "intelmq.bots.outputs.rt.output",
             "parameters": {
-                "rt_uri": "http://localhost/REST/1.0",
-                "verify_cert": true,
-                "rt_user": "apiuser",
-                "rt_password": "<password>",
-                "queue": "Incidents",
-                "description_attr": "event_description.text",
                 "CF_mapping": {
-                    "event_description.text": "Description",
-                    "source.ip": "IP",
-                    "classification.type": "Incident Type",
                     "classification.taxonomy": "Classification",
-                    "extra.incident.severity": "Incident Severity",
+                    "classification.type": "Incident Type",
+                    "event_description.text": "Description",
                     "extra.incident.importance": "Importance",
-                    "extra.organization.name": "Customer"
+                    "extra.incident.severity": "Incident Severity",
+                    "extra.organization.name": "Customer",
+                    "source.ip": "IP"
                 },
                 "create_investigation": false,
+                "description_attr": "event_description.text",
+                "final_status": "resolved",
                 "investigation_fields": "time.source,time.observation,source.ip,source.port,source.fqdn,source.url,classification.taxonomy,classification.type,classification.identifier,event_description.url,event_description.text,malware.name,protocol.application,protocol.transport",
-                "final_status": "resolved"
+                "queue": "Incidents",
+                "rt_password": "<password>",
+                "rt_uri": "http://localhost/REST/1.0",
+                "rt_user": "apiuser",
+                "verify_cert": true
             }
         },
         "SMTP": {
