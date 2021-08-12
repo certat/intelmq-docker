@@ -1,5 +1,5 @@
 #!/bin/bash
-build_version="2.3.3"
+build_version="3.0.0"
 namespace="certat"
 
 docker login
