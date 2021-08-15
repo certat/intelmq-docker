@@ -39,20 +39,24 @@ LABEL org.opencontainers.image.created=$BUILD_DATE \
 
 WORKDIR /opt
 
-COPY ./intelmq /opt/intelmq
-COPY ./intelmq-api /opt/intelmq-api
+COPY ./intelmq /etc/intelmq
+COPY ./intelmq-api /etc/intelmq-api
 
-RUN useradd -d /opt/intelmq -U -s /bin/bash intelmq \
-    && adduser intelmq sudo \ 
+RUN useradd -d /etc/intelmq -U -s /bin/bash intelmq \
+    && adduser intelmq sudo \
     && echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
-    && sudo chown -R intelmq:intelmq /opt/intelmq
+    && sudo chown -R intelmq:intelmq /etc/intelmq
 
 ### Install IntelMQ
-RUN cd /opt/intelmq \
+RUN cd /etc/intelmq \
     && pip3 install hug bs4 pika validators textx lxml url-normalize geolib pyasn pyyaml requests-mock cerberus imbox tld \
     && pip3 install --force pymisp[fileobjects,openioc,virustotal] \
     && pip3 install --no-cache-dir -e . \
     && intelmqsetup
+
+### Install IntelMQ-API
+RUN cd /etc/intelmq-api \
+    && python3 setup.py install
 
 ADD entrypoint.sh /opt/entrypoint.sh
 RUN chmod +x /opt/entrypoint.sh \
