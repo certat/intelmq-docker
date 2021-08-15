@@ -20,7 +20,7 @@ services:
         networks:
             - intelmq-internal
     intelmq:
-        image: intelmq-full:1.0
+        image: certat/intelmq-full:latest
         volumes:
             - ./example_config/intelmq/etc/:/etc/intelmq/etc/
             - ./example_config/intelmq-api:/etc/intelmq-api/config
