@@ -20,13 +20,14 @@ services:
         networks:
             - intelmq-internal
     intelmq:
-        image: certat/intelmq-full:1.0
+        image: intelmq-full:1.0
         volumes:
-            - ./example_config/intelmq/etc/:/opt/intelmq/etc/
-            - ./example_config/intelmq-api:/opt/intelmq-api/config
-            - ./intelmq_logs:/opt/intelmq/var/log
-            - ./intelmq_output:/opt/intelmq/var/lib/bots
-            - ./example_config/intelmq/var/lib/bot:/opt/intelmq/var/lib/bot
+            - ./example_config/intelmq/etc/:/etc/intelmq/etc/
+            - ./example_config/intelmq-api:/etc/intelmq-api/config
+            - ./intelmq_logs:/etc/intelmq/var/log
+            - ./intelmq_output:/etc/intelmq/var/lib/bots
+            - ./example_config/intelmq/var/lib/bot:/etc/intelmq/var/lib/bot
+            - ./intelmq_persistence:/opt/intelmq_persistence
         depends_on:
             - redis
         environment:
