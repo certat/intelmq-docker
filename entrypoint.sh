@@ -1,5 +1,9 @@
 #!/bin/bash
 export INTELMQ_IS_DOCKER=1
+
+intelmqctl upgrade-config
+intelmqctl check
+
 if [[ $1 == "selftest" ]]
 then
     export INTELMQ_TEST_EXOTIC=1
