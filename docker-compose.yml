@@ -23,7 +23,7 @@ services:
         image: certat/intelmq-full:latest
         volumes:
             - ./example_config/intelmq/etc/:/etc/intelmq/etc/
-            - ./example_config/intelmq-api:/etc/intelmq-api/config
+            - ./example_config/intelmq-api/config.json:/etc/intelmq/api-config.json
             - ./intelmq_logs:/etc/intelmq/var/log
             - ./intelmq_output:/etc/intelmq/var/lib/bots
             - ./example_config/intelmq/var/lib/bot:/etc/intelmq/var/lib/bot
