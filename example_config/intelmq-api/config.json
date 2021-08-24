@@ -1,7 +1,7 @@
 {
     "intelmq_ctl_cmd": ["intelmqctl"],
     "allowed_path": "/etc/intelmq/var/lib/bots/",
-    "session_store": "/opt/intelmq_persistence/api-session.sqlite",
+    "session_store": "/etc/intelmq/api-session.sqlite",
     "session_duration": 86400,
     "allow_origins": ["*"],
     "html_dir": ""
