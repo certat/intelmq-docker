@@ -1,5 +1,7 @@
 #!/bin/bash
 export INTELMQ_IS_DOCKER=1
+sudo chown -R intelmq:intelmq /etc/intelmq
+sudo chown -R intelmq:intelmq /opt/intelmq
 
 intelmqctl upgrade-config
 intelmqctl check
