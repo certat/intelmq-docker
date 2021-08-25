@@ -22,12 +22,10 @@ services:
     intelmq:
         image: certat/intelmq-full:latest
         volumes:
-            - ./example_config/intelmq/etc/:/etc/intelmq/etc/
+            - ./example_config/intelmq/etc/:/opt/intelmq/etc/
             - ./example_config/intelmq-api/config.json:/etc/intelmq/api-config.json
-            - ./intelmq_logs:/etc/intelmq/var/log
-            - ./intelmq_output:/etc/intelmq/var/lib/bots
-            - ./example_config/intelmq/var/lib/bot:/etc/intelmq/var/lib/bot
-            - ./intelmq_persistence:/opt/intelmq_persistence
+            - ./intelmq_logs:/opt/intelmq/var/log
+            - ./intelmq_output:/opt/intelmq/var/lib/bots
         depends_on:
             - redis
         environment:
