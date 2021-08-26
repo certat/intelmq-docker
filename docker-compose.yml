@@ -26,6 +26,9 @@ services:
             - ./example_config/intelmq-api/config.json:/etc/intelmq/api-config.json
             - ./intelmq_logs:/opt/intelmq/var/log
             - ./intelmq_output:/opt/intelmq/var/lib/bots
+
+            - ./custom_bots/ecs/expert:/usr/local/bin/intelmq.bots.experts.ecs.expert:rx
+            - ./custom_bots/ecs/expert.py:/etc/intelmq/intelmq/bots/experts/ecs/expert.py:ro
         depends_on:
             - redis
         environment:
