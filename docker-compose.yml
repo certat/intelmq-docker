@@ -27,6 +27,7 @@ services:
             - ./intelmq_logs:/opt/intelmq/var/log
             - ./intelmq_output:/opt/intelmq/var/lib/bots
 
+            - ./custom_bots/ecs/__init__.py:/etc/intelmq/intelmq/bots/experts/ecs/__init__.py:ro
             - ./custom_bots/ecs/expert.py:/etc/intelmq/intelmq/bots/experts/ecs/expert.py:ro
         depends_on:
             - redis
