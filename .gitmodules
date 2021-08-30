@@ -1,9 +1,12 @@
 [submodule "intelmq"]
 	path = intelmq
 	url = https://github.com/certtools/intelmq.git
+	branch = maintenance
 [submodule "intelmq-manager"]
 	path = intelmq-manager
 	url = https://github.com/certtools/intelmq-manager.git
+	branch = maintenance
 [submodule "intelmq-api"]
 	path = intelmq-api
 	url = https://github.com/certtools/intelmq-api.git
+	branch = maintenance
