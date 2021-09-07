@@ -30,6 +30,8 @@ RUN apt-get update \
     python3-dev \
     python3-setuptools \
     python3-pip \
+    python3-hug \
+    python3-ruamel.yaml \
     libfuzzy-dev \
     && rm -rf /var/lib/apt/lists/*
 
@@ -51,7 +53,7 @@ RUN useradd -d /etc/intelmq -U -s /bin/bash intelmq \
 
 ### Install IntelMQ
 RUN cd /etc/intelmq \
-    && pip3 install hug bs4 pika validators textx lxml url-normalize geolib pyasn pyyaml requests-mock cerberus imbox tld xmltodict jinja2 \
+    && pip3 install hug bs4 pika validators textx lxml url-normalize geolib pyasn requests-mock cerberus imbox tld xmltodict jinja2 \
     && pip3 install --force pymisp[fileobjects,openioc,virustotal] \
     && pip3 install --no-cache-dir -e . \
     && intelmqsetup
