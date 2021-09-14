@@ -38,6 +38,7 @@ RUN apt-get update \
     python3-xmltodict \
     python3-cerberus \
     python3-requests-mock \
+    python3-shodan \
     libfuzzy-dev \
     && rm -rf /var/lib/apt/lists/*
 
@@ -59,7 +60,7 @@ RUN useradd -d /etc/intelmq -U -s /bin/bash intelmq \
 
 ### Install IntelMQ
 RUN cd /etc/intelmq \
-    && pip3 install hug url-normalize geolib imbox jinja2 pyasn textx tld time-machine shodan \
+    && pip3 install hug url-normalize geolib imbox jinja2 pyasn textx tld time-machine \
     && pip3 install --force pymisp[fileobjects,openioc,virustotal] \
     && pip3 install --no-cache-dir -e . \
     && intelmqsetup
