@@ -2,46 +2,48 @@
 
 ## Run & deploy containers in dev mode:
 
-0. `cd intelmq-manager`
-0. `python3 setup.py`
-0. `cd ..`
-1. `docker-compose -f docker-compose-dev.yml up`
+### Install docker and docker-compose
+```
+sudo apt update && sudo apt upgrade -y && sudo apt install docker.io git docker-compose
+```
+
+### Clone this repo
+
+```
+git clone https://github.com/certat/intelmq-docker.git --recursive
+cd intelmq-docker
+docker-compose -f docker-compose-dev.yml build
+```
+
+### In next step replace git@github.com:certtools/intelmq.git by your fork of intelmq
+
+```
+git clone git@github.com:certtools/intelmq.git my_fork_of_intelmq/
+docker-compose -f docker-compose-dev.yml up
+```
+
+### Open your favourite browser -> Go to `http://127.0.0.1:1337/`
+
+        Default user/password: intelmq/intelmq
 
 ## Docker-compose-dev.yml file
 
-### Volume:
+### Volumes:
 
-**./mybots:/opt/dev/mybots** -> this is the folder where your source code need to be, you could see one expert example in mybots/bots/experts/example and a BOTS json definition file containing the default configuration for example expert.
+- **./my_fork_of_intelmq/intelmq:/etc/intelmq/intelmq** -> this is the folder where your source code need to be, we decide to use fork from intelmq so you could inherit intelmq changes and upgrades to your bots code directly.
 
 ### Add your own bots
 
-Just start coding or pull your bots repository in ,/mybots folder
+Just start coding or pull your bots repository in ./my_fork_of_intelmq folder/intelmq/bots
 
-### How to install and look yours bots runnig
+### How to install and look yours bots running
 
+After you change some bot or add someshing new just run command **install_reqs_and_deploy_bots.sh** in the running container
 
-Just run /opt/dev/update.sh in the container:
-
-1. `docker-compose exec -f docker-compose-dev.yml  intelmq /opt/bin/update.sh`
+```
+docker-compose exec -f docker-compose-dev.yml  intelmq sudo bash /opt/install_reqs_and_deploy_bots.sh
+```
 
 When you do this:
 
-* Yours BOTS files will be mixed with intelmq original BOTS and the copied to runtime environment
-* Yours bots will be installed
-
-### Additional environment variables
-
-Check options in docker-compose-dev.yml:
-
-* LOG_MAIL_* -> these variables add support for mail handler (to tell intelmq to notificate you errors using email)
-* ENABLE_BOTNET_AT_BOOT: true/false, to configure if bot has to start at docker boot or not.
-
-
-## For deploy your already developed bots
-
-Just clone your bots git to ./mybots and run the container
-
-For example, using https://github.com/CERTUNLP/intelmq-bots:
-
-1. `git clone https://github.com/CERTUNLP/intelmq-bots mybots -b 2.3`
-0. `docker-compose -f docker-compose-dev.yml up`
+* Yours bots and REQUERIMENTS will be installed
