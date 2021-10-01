@@ -7,16 +7,12 @@ services:
         command:
             - redis-server
             - /usr/local/etc/redis/redis.conf
-        restart: always
         networks: 
             - intelmq-internal
     nginx:
         image: certat/intelmq-nginx:latest
-        restart: always
         ports: 
             - 1337:80
-        volumes: 
-            - ./intelmq-manager/html:/www
         depends_on: 
             - intelmq
         networks: 
@@ -25,25 +21,23 @@ services:
         build: .docker/intelmq-full-dev
         volumes: 
             - ./example_config/intelmq/etc/:/opt/intelmq/etc/
-            - ./example_config/intelmq-api:/opt/intelmq-api/config
+            - ./example_config/intelmq-api/config.json:/etc/intelmq/api-config.json
             - ./intelmq_logs:/opt/intelmq/var/log
             - ./intelmq_output:/opt/intelmq/var/lib/bots
-            - ./example_config/intelmq/var/lib/bot:/opt/intelmq/var/lib/bot
-            - ./mybots:/opt/dev/mybots
+            - ./my_fork_of_intelmq/intelmq/:/etc/intelmq/intelmq/
         depends_on: 
             - redis
-        environment: 
-            INTELMQ_PIPELINE_DRIVER: "redis"
+        environment:
+            IS_DEV: "true" 
+            INTELMQ_SOURCE_PIPELINE_BROKER: "redis"
+            INTELMQ_PIPELINE_BROKER: "redis"
+            INTELMQ_DESTIONATION_PIPELINE_BROKER: "redis"
             INTELMQ_PIPELINE_HOST: redis
+            INTELMQ_SOURCE_PIPELINE_HOST: redis
+            INTELMQ_DESTINATION_PIPELINE_HOST: redis
             INTELMQ_REDIS_CACHE_HOST: redis
-            # Start botnet at boot
-            ENABLE_BOTNET_AT_BOOT: "false"
-            # Enable this to enable automix of BOTS file
-            AUTO_MIX_BOTS: "false"
         networks:
             - intelmq-internal
-
-
 networks: 
     intelmq-internal:
         driver: bridge
