@@ -1,9 +1,9 @@
 #!/bin/bash
 build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-git_ref_core=$(cd ./intelmq && git describe --long --always)
-git_ref_manager=$(cd ./intelmq-manager && git describe --long --always)
-git_ref_api=$(cd ./intelmq-api && git describe --long --always)
-build_version=$(cd ./intelmq && git describe --always)
+git_ref_core=$(git -C ./intelmq describe --long --always)
+git_ref_manager=$(git -C ./intelmq-manager describe --long --always)
+git_ref_api=$(git -C ./intelmq-api describe --long --always)
+build_version=$(git -C ./intelmq describe --always)
 
 echo Building new IntelMQ-Image v$build_version
 echo Core      : $git_ref_core
