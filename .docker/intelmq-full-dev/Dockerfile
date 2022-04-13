@@ -4,6 +4,11 @@ ENV LANG C.UTF-8
 LABEL maintainer="Einar <elanfranco@csirtamericas.org>"
 LABEL maintainer="Jeremias <jpretto@cert.unlp.edu.ar>" 
 LABEL maintainer="Mateo <mdurante@cert.unlp.edu.ar>" 
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    git \
+    vim \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt
 ADD entrypoint-dev.sh /opt/entrypoint-dev.sh
