@@ -1,11 +1,13 @@
 #!/bin/bash
-rm -f /tmp/orderfullrequirements.txt /tmp/fullrequirements.txt
-for file in $(find /etc/intelmq/intelmq/bots -name "*REQUIREMENTS.txt"); do 
-   cat $file >> /tmp/fullrequirements.txt
+sudo cp -r $MY_FORK/$MY_BOTS_FOLDER/* /etc/intelmq/intelmq/bots/
+sudo rm -f /tmp/orderfullrequirements.txt /tmp/fullrequirements.txt
+for req in $(find $MY_FORK/$MY_BOTS_FOLDER -name "*REQUIREMENTS.txt"); do 
+   cat $req >> /tmp/fullrequirements.txt
 done
 cat /tmp/fullrequirements.txt | sort | uniq > /tmp/orderfullrequirements.txt
 sudo pip3 install -r /tmp/orderfullrequirements.txt; 
-cd /etc/intelmq
-sudo pip3 install --no-cache-dir -e .
 
-sudo intelmqsetup
+
+#cd /etc/intelmq
+#sudo pip3 install --no-cache-dir -e .
+#sudo intelmqsetup
