@@ -34,13 +34,13 @@ docker-compose -f docker-compose-dev.yml up
 
 ### Environment
             #Folder where you clone your repository
-            MY_FORK: "/my_fork_of_intelmq"
+            MY_FORK: "/mybots"
             #Foder in your repo where bots are located
-            MY_BOTS_FOLDER: "intelmq/bots"
+            MY_BOTS_FOLDER: "bots"
 
 ### Add your own bots
 
-Just start coding or pull your bots repository in ./my_fork_of_intelmq folder/intelmq/bots
+Just start coding or pull your bots repository in ./mybots by default in a subfolder bots, so you need for example mybots/bots/[collectors,parsers,experts,output,parsers]
 
 ### How to install and look yours bots running
 
@@ -52,4 +52,4 @@ docker-compose exec -f docker-compose-dev.yml  intelmq sudo bash /opt/install_re
 
 When you do this:
 
-* Yours bots and REQUERIMENTS will be installed
+* Yours bots REQUERIMENTS.txt and the bots will be installed
