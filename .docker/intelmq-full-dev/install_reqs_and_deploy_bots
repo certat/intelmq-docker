@@ -7,7 +7,6 @@ done
 cat /tmp/fullrequirements.txt | sort | uniq > /tmp/orderfullrequirements.txt
 sudo pip3 install -r /tmp/orderfullrequirements.txt; 
 
-
-#cd /etc/intelmq
-#sudo pip3 install --no-cache-dir -e .
-#sudo intelmqsetup
+cd /etc/intelmq
+sudo pip3 install --no-cache-dir -e .
+sudo intelmqsetup
