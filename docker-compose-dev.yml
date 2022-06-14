@@ -28,6 +28,7 @@ services:
         depends_on: 
             - redis
         environment:
+            ENABLE_BOTNET_AT_BOOT: "false"
             IS_DEV: "true" 
             INTELMQ_SOURCE_PIPELINE_BROKER: "redis"
             INTELMQ_PIPELINE_BROKER: "redis"
