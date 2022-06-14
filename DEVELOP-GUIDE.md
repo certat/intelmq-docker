@@ -53,3 +53,6 @@ docker-compose exec -f docker-compose-dev.yml  intelmq sudo bash /opt/install_re
 When you do this:
 
 * Yours bots REQUERIMENTS.txt and the bots will be installed
+
+
+* Another thing, you could make your bots to be running when container startup, just setting ENABLE_BOTNET_AT_BOOT: "true"
