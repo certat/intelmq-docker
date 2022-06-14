@@ -24,3 +24,7 @@ then
 else
     cd /etc/intelmq-api && hug -m intelmq_api.serve -p8080
 fi
+
+if [ "${ENABLE_BOTNET_AT_BOOT}" = "true" ]; then
+	intelmqctl start
+fi
