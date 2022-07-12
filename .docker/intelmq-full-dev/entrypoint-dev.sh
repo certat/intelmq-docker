@@ -17,6 +17,10 @@ intelmq_pass="${INTELMQ_API_PASS:=intelmq}"
 
 intelmq-api-adduser --user "$intelmq_user" --password "$intelmq_pass"
 
+if [[ ${ENABLE_BOTNET_AT_BOOT} == "true" ]]; then
+	intelmqctl start
+fi
+
 if [[ $1 == "selftest" ]]
 then
     export INTELMQ_TEST_EXOTIC=1
@@ -25,6 +29,3 @@ else
     cd /etc/intelmq-api && hug -m intelmq_api.serve -p8080
 fi
 
-if [ "${ENABLE_BOTNET_AT_BOOT}" = "true" ]; then
-	intelmqctl start
-fi
