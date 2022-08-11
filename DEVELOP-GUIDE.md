@@ -56,3 +56,9 @@ When you do this:
 
 
 * Another thing, you could make your bots to be running when container startup, just setting ENABLE_BOTNET_AT_BOOT: "true"
+
+### Known isues
+
+Some dependencies are missing, as far is i know you need to install:
+
+        sudo pip3 install elasticsearch==7.9 geoip2 azure-storage-blob
