@@ -57,8 +57,21 @@ When you do this:
 
 * Another thing, you could make your bots to be running when container startup, just setting ENABLE_BOTNET_AT_BOOT: "true"
 
+## Dependencies problems
+
+Some dependencies from defaults bots are missing in original intelmq image, so we fix it in our Dockerfile build process. Neverles we still facing some issues.
+
 ### Known isues
 
-Some dependencies are missing, as far is i know you need to install:
+Blueliv problem:
 
-        sudo pip3 install elasticsearch==7.9 geoip2 azure-storage-blob
+        pip3 install git+git://github.com/Blueliv/api-python-sdk doesn't work because git+git is deprecated, to fix it you need to replace git+git with git+https 
+
+
+But you still will have problems because of dependency confict:
+
+        ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+        pymisp 2.4.148 requires requests<3.0.0,>=2.25.1, but you have requests 2.5.1 which is incompatible.
+
+
+        
