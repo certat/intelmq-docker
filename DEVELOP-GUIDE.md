@@ -59,19 +59,24 @@ When you do this:
 
 ## Dependencies problems
 
-Some dependencies from defaults bots are missing in original intelmq image, so we fix it in our Dockerfile build process. Neverles we still facing some issues.
+Some dependencies from defaults bots are missing in original intelmq image, so we fix it in our Dockerfile build process. Nevertheless, we still facing some issues.
 
 ### Known isues
 
-Blueliv problem:
+#### Blueliv problem:
+
+This bot has 2 problems: 
+
+1- It doesn't install:
 
         pip3 install git+git://github.com/Blueliv/api-python-sdk doesn't work because git+git is deprecated, to fix it you need to replace git+git with git+https 
 
 
-But you still will have problems because of dependency confict:
+2- But if you fix and install it you would cause a dependency conflict with pymisp:
 
-        ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+        ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behavior is the source of the following dependency conflicts.
         pymisp 2.4.148 requires requests<3.0.0,>=2.25.1, but you have requests 2.5.1 which is incompatible.
 
 
-        
+If you don't need blueliv, just don't fix git+git with git+https.
+
