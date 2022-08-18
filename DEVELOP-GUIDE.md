@@ -30,31 +30,31 @@ docker-compose -f docker-compose-dev.yml up
 
 ### Volumes:
 
-- **./my_fork_of_intelmq/:/my_fork_of_intelmq** -> this is the folder where your source code need to be, we decide to use fork from intelmq so you could inherit intelmq changes and upgrades to your bots code directly.
+- **./my_bots:/my_bots** -> this is the folder where your bots source code need to be.
 
 ### Environment
             #Folder where you clone your repository
-            MY_FORK: "/mybots"
+            MY_FORK: "/my_bots"
             #Folder in your repo where bots are located
             MY_BOTS_FOLDER: "bots"
 
 ### Add your own bots
 
-Just start coding or pull your bots repository in ./mybots by default in a subfolder bots, so you need for example mybots/bots/[collectors,parsers,experts,output,parsers]
+Just start coding or pull your bots repository in ./my_bots by default in a subfolder bots, so you need for example my_bots/bots/[collectors,parsers,experts,output,parsers]
+
+You could take a look at the folder and files in https://github.com/certtools/intelmq/tree/develop/intelmq/bots
 
 ### How to install and look yours bots running
 
 After you change some bot or add something new just run command **install_reqs_and_deploy_bots.sh** in the running container
 
 ```
-docker-compose exec -f docker-compose-dev.yml  intelmq sudo bash /opt/install_reqs_and_deploy_bots.sh
+docker-compose exec -f docker-compose-dev.yml intelmq sudo bash /opt/install_reqs_and_deploy_bots.sh
 ```
 
 When you do this:
 
 * Yours bots REQUERIMENTS.txt and the bots will be installed
-
-
 * Another thing, you could make your bots to be running when container startup, just setting ENABLE_BOTNET_AT_BOOT: "true"
 
 ## Dependencies problems
@@ -79,4 +79,3 @@ This bot has 2 problems:
 
 
 If you don't need blueliv, just don't fix git+git with git+https.
-

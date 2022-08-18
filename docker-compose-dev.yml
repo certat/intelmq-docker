@@ -24,7 +24,7 @@ services:
             - ./example_config/intelmq-api/config.json:/etc/intelmq/api-config.json
             - ./intelmq_logs:/opt/intelmq/var/log
             - ./intelmq_output:/opt/intelmq/var/lib/bots
-            - ./mybots:/my_fork_of_intelmq
+            - ./my_bots:/my_bots
         depends_on: 
             - redis
         environment:
@@ -37,7 +37,7 @@ services:
             INTELMQ_SOURCE_PIPELINE_HOST: redis
             INTELMQ_DESTINATION_PIPELINE_HOST: redis
             INTELMQ_REDIS_CACHE_HOST: redis
-            MY_FORK: "/my_fork_of_intelmq"
+            MY_FORK: "/my_bots"
             MY_BOTS_FOLDER: "bots"
         networks:
             - intelmq-internal
