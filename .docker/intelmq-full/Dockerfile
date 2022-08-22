@@ -26,6 +26,7 @@ RUN apt-get update \
     sudo \
     gcc \
     rsync \
+    ssh \
     python3-pika \
     python3-nose \
     python3-dev \
