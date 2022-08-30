@@ -117,7 +117,7 @@ gethostbyname-2-expert:
   run_mode: continuous
 global: {destination_pipeline_broker: redis, process_manager: intelmq, source_pipeline_broker: redis,
   ssl_ca_certificate: null, statistics_database: 3, statistics_host: 127.0.0.1, statistics_password: null,
-  statistics_port: 6379}
+  statistics_port: 6379, destination_pipeline_host: redis, source_pipeline_host: redis}
 malc0de-parser:
   bot_id: malc0de-parser
   description: Malc0de Parser is the bot responsible to parse the IP Blacklist and
