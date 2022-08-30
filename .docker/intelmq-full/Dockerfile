@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bullseye-slim
 ENV LANG C.UTF-8
 
 ARG BUILD_DATE
@@ -14,13 +14,8 @@ LABEL maintainer="IntelMQ Team <intelmq-team@cert.at>" \
       org.opencontainers.image.documentation="https://intelmq.readthedocs.io/en/latest/" \
       org.opencontainers.image.vendor="intelmq-team"
 
-
 ###
 # libfuzzy-dev is used for pydeep
-#
-#
-#
-#
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     sudo \
@@ -46,33 +41,36 @@ LABEL org.opencontainers.image.created=$BUILD_DATE \
       org.opencontainers.image.revision=$VCS_REF \
       org.opencontainers.image.version=$BUILD_VERSION
 
-WORKDIR /opt
+COPY ./intelmq /opt/intelmq
+COPY ./intelmq-api /opt/intelmq-api
 
-COPY ./intelmq /etc/intelmq
-COPY ./intelmq-api /etc/intelmq-api
-
-RUN useradd -d /etc/intelmq -U -s /bin/bash intelmq \
+RUN useradd -d /opt/intelmq -U -s /bin/bash intelmq \
     && adduser intelmq sudo \
-    && echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
-    && sudo chown -R intelmq:intelmq /etc/intelmq \
+    && echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /opt/sudoers \
+    && sudo chown -R intelmq:intelmq /opt/intelmq \
     && mkdir -p /opt/intelmq_persistence \
     && sudo chown -R intelmq:intelmq /opt/intelmq_persistence
 
 ### Install IntelMQ
-RUN cd /etc/intelmq \
-    && pip3 install hug url-normalize geolib imbox jinja2 pyasn textx tld time-machine \
-    && pip3 install --force pymisp[fileobjects,openioc,virustotal] \
-    && pip3 install --no-cache-dir -e . \
+RUN pip3 install hug url-normalize geolib imbox jinja2 pyasn textx tld time-machine otxv2 \
+    && pip3 install --force pymisp[fileobjects,openioc,virustotal]
+
+RUN cd /opt/intelmq \
+    && pip3 install .
+
+RUN cd /opt/intelmq \
     && intelmqsetup
 
 ### Install IntelMQ-API
-RUN cd /etc/intelmq-api \
+RUN cd /opt/intelmq-api \
     && python3 setup.py install
 
 ADD entrypoint.sh /opt/entrypoint.sh
 RUN chmod +x /opt/entrypoint.sh \
     && chown intelmq:intelmq /opt/entrypoint.sh
 
-USER intelmq:intelmq
+WORKDIR /opt
+
+#USER intelmq:intelmq
 
 ENTRYPOINT [ "/opt/entrypoint.sh" ]
