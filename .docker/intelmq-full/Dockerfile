@@ -47,7 +47,7 @@ COPY ./intelmq-api /opt/intelmq-api
 
 RUN useradd -d /opt/intelmq -U -s /bin/bash intelmq \
     && adduser intelmq sudo \
-    && echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /opt/sudoers \
+    && echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
     && sudo chown -R intelmq:intelmq /opt/intelmq \
     && mkdir -p /opt/intelmq_persistence \
     && sudo chown -R intelmq:intelmq /opt/intelmq_persistence
