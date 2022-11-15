@@ -35,6 +35,8 @@ RUN apt-get update \
     python3-cerberus \
     python3-requests-mock \
     python3-shodan \
+    python3-elasticsearch \
+    python3-pymongo \
     libfuzzy-dev \
     && rm -rf /var/lib/apt/lists/*
 
