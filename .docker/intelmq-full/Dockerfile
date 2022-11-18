@@ -14,8 +14,7 @@ LABEL maintainer="IntelMQ Team <intelmq-team@cert.at>" \
       org.opencontainers.image.documentation="https://intelmq.readthedocs.io/en/latest/" \
       org.opencontainers.image.vendor="intelmq-team"
 
-###
-# libfuzzy-dev is used for pydeep
+### libfuzzy-dev is used for pydeep
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     sudo \
@@ -46,7 +45,7 @@ COPY ./intelmq-api /opt/intelmq-api
 
 RUN useradd -d /opt/intelmq -U -s /bin/bash intelmq \
     && adduser intelmq sudo \
-    && echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /opt/sudoers \
+    && echo "intelmq ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/intelmq \
     && sudo chown -R intelmq:intelmq /opt/intelmq \
     && mkdir -p /opt/intelmq_persistence \
     && sudo chown -R intelmq:intelmq /opt/intelmq_persistence

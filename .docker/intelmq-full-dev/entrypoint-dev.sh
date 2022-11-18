@@ -24,8 +24,7 @@ fi
 if [[ $1 == "selftest" ]]
 then
     export INTELMQ_TEST_EXOTIC=1
-    nosetests3 /etc/intelmq/intelmq/tests
+    nosetests3 /opt/intelmq/intelmq/tests
 else
-    cd /etc/intelmq-api && hug -m intelmq_api.serve -p8080
+    cd /opt/intelmq-api && hug -m intelmq_api.serve -p8080
 fi
-

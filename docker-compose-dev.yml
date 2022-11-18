@@ -18,13 +18,14 @@ services:
         networks: 
             - intelmq-internal
     intelmq:
-        build: .docker/intelmq-full-dev
+        # build: .docker/intelmq-full-dev
+        image: certunlp/intelmq3-full-dev:latest
         volumes: 
-            - ./example_config/intelmq/etc/:/opt/intelmq/etc/
-            - ./example_config/intelmq-api/config.json:/etc/intelmq/api-config.json
-            - ./intelmq_logs:/opt/intelmq/var/log
-            - ./intelmq_output:/opt/intelmq/var/lib/bots
-            - ./my_bots:/my_bots
+           - ./example_config/intelmq/etc/:/opt/intelmq/etc/
+           - ./example_config/intelmq-api/config.json:/etc/intelmq/api-config.json
+           - ./intelmq_logs:/opt/intelmq/var/log
+           - ./intelmq_output:/opt/intelmq/var/lib/bots
+           - ./my_bots:/my_bots
         depends_on: 
             - redis
         environment:
