@@ -20,6 +20,7 @@ RUN apt-get update \
     sudo \
     gcc \
     rsync \
+    ssh \
     python3-pika \
     python3-nose \
     python3-dev \
@@ -33,6 +34,8 @@ RUN apt-get update \
     python3-cerberus \
     python3-requests-mock \
     python3-shodan \
+    python3-elasticsearch \
+    python3-pymongo \
     libfuzzy-dev \
     && rm -rf /var/lib/apt/lists/*
 

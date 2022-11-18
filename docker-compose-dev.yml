@@ -22,7 +22,7 @@ services:
         image: certunlp/intelmq3-full-dev:latest
         volumes: 
            - ./example_config/intelmq/etc/:/opt/intelmq/etc/
-           - ./example_config/intelmq-api/config.json:/etc/intelmq/api-config.json
+           - ./example_config/intelmq-api/config.json:/opt/intelmq/api-config.json
            - ./intelmq_logs:/opt/intelmq/var/log
            - ./intelmq_output:/opt/intelmq/var/lib/bots
            - ./my_bots:/my_bots
