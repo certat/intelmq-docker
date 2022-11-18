@@ -22,7 +22,7 @@ services:
         image: certunlp/intelmq3-full-dev:latest
         volumes: 
            - ./example_config/intelmq/etc/:/opt/intelmq/etc/
-           - ./example_config/intelmq-api/config.json:/opt/intelmq/api-config.json
+           - ./example_config/intelmq-api/config.json:/etc/intelmq/api-config.json
            - ./intelmq_logs:/opt/intelmq/var/log
            - ./intelmq_output:/opt/intelmq/var/lib/bots
            - ./my_bots:/my_bots
@@ -38,7 +38,7 @@ services:
             INTELMQ_SOURCE_PIPELINE_HOST: redis
             INTELMQ_DESTINATION_PIPELINE_HOST: redis
             INTELMQ_REDIS_CACHE_HOST: redis
-            MY_FORK: "/my_bots"
+            MY_FORK: "/my_bots/"
             MY_BOTS_FOLDER: "bots"
         networks:
             - intelmq-internal

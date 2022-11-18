@@ -1,18 +1,25 @@
-FROM certat/intelmq-full:1.0
+FROM certat/intelmq-full:latest
+ENV LANG C.UTF-8
 
-ADD entrypoint_dev.sh /opt/dev/entrypoint_dev.sh
-ADD update.sh /opt/dev/update.sh
-ADD merge_BOTS.py /opt/dev/merge_BOTS.py
+LABEL maintainer="Einar <elanfranco@csirtamericas.org>"
+LABEL maintainer="Jeremias <jpretto@cert.unlp.edu.ar>" 
+LABEL maintainer="Mateo <mdurante@cert.unlp.edu.ar>" 
+RUN sudo apt-get update \
+    && sudo apt-get install -y --no-install-recommends \
+    git \
+    vim \
+    ssh \
+    && sudo rm -rf /var/lib/apt/lists/*
 
-# Merge bots for merge_BOTS.py
-RUN sudo python3 -m pip install jsonmerge
+WORKDIR /opt
+ADD entrypoint-dev.sh /opt/entrypoint-dev.sh
+ADD install_reqs_and_deploy_bots /opt/install_reqs_and_deploy_bots.sh
+RUN sudo chmod +x /opt/entrypoint-dev.sh \
+    && sudo chown intelmq:intelmq /opt/entrypoint-dev.sh
+RUN sudo chmod +x /opt/install_reqs_and_deploy_bots.sh \
+    && sudo chown intelmq:intelmq /opt/install_reqs_and_deploy_bots.sh
+RUN usermod -aG intelmq www-data
 
-USER intelmq:intelmq
+USER intelmq
 
-# Permission denied when installing new bots
-RUN sudo chown -R intelmq:intelmq /opt/intelmq/intelmq.egg-info
-
-ENV PATH="/opt/intelmq/.local/bin:${PATH}"
-
-ENTRYPOINT ["/opt/dev/entrypoint_dev.sh"]
-
+ENTRYPOINT [ "/opt/entrypoint-dev.sh" ]
