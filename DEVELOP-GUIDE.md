@@ -41,7 +41,7 @@ Docker dev shares almost all volumes and environment variables from intelmq-full
 
 ### Add your own bots
 
-Just start coding or pull your bots repository in some folder like ./my_bots in a subfolder bots, so you need for example my_bots/bots/[collectors,parsers,experts,output,parsers]
+Just start coding or pull your bots repository in some folder like, for example, ./my_bots in a subfolder bots, then you have for example my_bots/bots/[collectors,parsers,experts,output,parsers]
 
 You could take a look at the folder and files in https://github.com/certtools/intelmq/tree/develop/intelmq/bots to start.
 
@@ -62,7 +62,8 @@ docker-compose exec -f docker-compose-dev.yml intelmq sudo bash /opt/install_req
 
 When you do this:
 
-* Yours bots REQUERIMENTS.txt and yout bots will be installed or updated from **MY_FORK**
+* Yours bots REQUERIMENTS.txt and yout bots will be installed or updated from **MY_FORK**. 
+* Keep in mind that before being installed they will be mixed with the originals of the intelmq project, so it is important not to use the same names, neither for the bot nor for the .py files.
 
 
 ## Dependencies problems
