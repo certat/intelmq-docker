@@ -1,152 +1,3 @@
-Deduplicator-Expert-CISA:
-  bot_id: Deduplicator-Expert-CISA
-  description: Detection and drop exact duplicate messages. Message hashes are cached
-    in the Redis database
-  enabled: true
-  group: Expert
-  groupname: experts
-  module: intelmq.bots.experts.deduplicator.expert
-  name: Deduplicator
-  parameters:
-    bypass: false
-    destination_queues:
-      _default: [Filter-Expert-timebased-queue]
-    filter_keys: ''
-    filter_type: blacklist
-    redis_cache_db: 6
-    redis_cache_host: 127.0.0.1
-    redis_cache_password: ''
-    redis_cache_port: 6379
-    redis_cache_ttl: 86400
-  run_mode: continuous
-Filter-Expert-timebased:
-  bot_id: Filter-Expert-timebased
-  description: Filter events, supports named paths for splitting the message flow
-  enabled: true
-  group: Expert
-  module: intelmq.bots.experts.filter.expert
-  name: Filter
-  parameters:
-    destination_queues:
-      _default: [Telegram-Output-queue]
-    filter_action: ''
-    filter_key: time.source
-    filter_regex: ''
-    filter_value: ''
-    not_after: ''
-    not_before: 15 days
-  run_mode: continuous
-GenericCsv-Parser:
-  bot_id: GenericCsv-Parser
-  description: 'Parse generic CSV data. Ignoring lines starting with character #.
-    URLs without protocol can be prefixed with a default value.'
-  enabled: true
-  group: Parser
-  groupname: parsers
-  module: intelmq.bots.parsers.generic.parser_csv
-  name: GenericCsv
-  parameters:
-    column_regex_search: ''
-    columns: ''
-    columns_required: ''
-    compose_fields: {}
-    data_type: ''
-    default_url_protocol: http://
-    delimiter: ','
-    destination_queues: {}
-    filter_text: ''
-    filter_type: ''
-    skip_header: false
-    time_format: ''
-    type: ''
-    type_translation: {}
-  run_mode: continuous
-GenericCsv-Parser-2:
-  bot_id: GenericCsv-Parser-2
-  description: 'Parse generic CSV data. Ignoring lines starting with character #.
-    URLs without protocol can be prefixed with a default value.'
-  enabled: true
-  group: Parser
-  groupname: parsers
-  module: intelmq.bots.parsers.generic.parser_csv
-  name: GenericCsv
-  parameters:
-    column_regex_search: ''
-    columns: extra.cveID,extra.vendorProject,extra.product,extra.vulnerabilityName,time.source,extra.shortDescription,extra.requiredAction,extra.dueDate,extra.notes
-    compose_fields: {}
-    data_type: ''
-    default_url_protocol: http://
-    delimiter: ','
-    destination_queues:
-      _default: [Deduplicator-Expert-CISA-queue, Filter-Expert-timebased-queue]
-    filter_text: ''
-    filter_type: ''
-    skip_header: true
-    time_format: ''
-    type: ''
-    type_translation: {}
-  run_mode: continuous
-HTTP-Collector:
-  bot_id: HTTP-Collector
-  description: Fetch reports from an URL
-  enabled: true
-  group: Collector
-  groupname: collectors
-  module: intelmq.bots.collectors.http.collector_http
-  name: HTTP
-  parameters:
-    code: ''
-    destination_queues:
-      _default: [GenericCsv-Parser-2-queue]
-    documentation: ''
-    extract_files: false
-    gpg_keyring: ''
-    http_header: {}
-    http_password: ''
-    http_url: https://www.cisa.gov/sites/default/files/csv/known_exploited_vulnerabilities.csv
-    http_url_formatting: false
-    http_username: ''
-    provider: ''
-    rate_limit: 3600
-    signature_url: ''
-    signature_url_formatting: false
-    ssl_client_cert: ''
-    ssl_client_certificate: ''
-    verify_pgp_signatures: false
-  run_mode: continuous
-NoOp-Collector:
-  bot_id: NoOp-Collector
-  description: Este bot no hace nada util
-  enabled: true
-  group: Collector
-  groupname: collectors
-  module: intelmq.bots.collectors.otherexample.collector
-  name: NoOp
-  parameters:
-    cantidad: 5
-    code: ''
-    destination_queues:
-      _default: [GenericCsv-Parser-queue]
-    documentation: ''
-    paso: step
-    provider: ''
-    rate_limit: 3600
-  run_mode: continuous
-Telegram-Output:
-  bot_id: Telegram-Output
-  description: Send events to a REST API listener through HTTP POST
-  enabled: true
-  group: Output
-  groupname: outputs
-  module: intelmq.bots.outputs.telegram.output
-  name: Telegram
-  parameters:
-    chat_id: 145090811
-    destination_queues: {}
-    message: 'Nuevo CVE siendo explotado: {ev[extra.cveID]}:{ev[extra.vulnerabilityName]}.
-      Agregado {ev[time.source]}. Detalles: Producto{ev[extra.product]} '
-    token: 5985070241:AAFhp3Hrl-_sv67lZoibhW2uBTqpPfBRJiE
-  run_mode: continuous
 cymru-whois-expert:
   bot_id: cymru-whois-expert
   description: Cymru Whois (IP to ASN) is the bot responsible to add network information
@@ -158,7 +9,7 @@ cymru-whois-expert:
   name: Cymru Whois
   parameters:
     destination_queues:
-      _default: [file-output-einar-queue]
+      _default: [file-output-queue]
     overwrite: true
     redis_cache_db: 5
     redis_cache_host: 127.0.0.1
@@ -187,12 +38,10 @@ deduplicator-expert:
     redis_cache_ttl: 86400
   run_mode: continuous
 feodo-tracker-browse-collector:
-  bot_id: feodo-tracker-browse-collector
   description: Generic URL Fetcher is the bot responsible to get the report from an
     URL.
   enabled: true
   group: Collector
-  groupname: collectors
   module: intelmq.bots.collectors.http.collector_http
   name: URL Fetcher
   parameters:
@@ -209,12 +58,10 @@ feodo-tracker-browse-collector:
     ssl_client_certificate: null
   run_mode: continuous
 feodo-tracker-browse-parser:
-  bot_id: feodo-tracker-browse-parser
   description: HTML Table Parser is a bot configurable to parse different html table
     data.
   enabled: true
   group: Parser
-  groupname: parsers
   module: intelmq.bots.parsers.html_table.parser
   name: HTML Table
   parameters:
@@ -233,19 +80,16 @@ feodo-tracker-browse-parser:
     time_format: null
     type: c2-server
   run_mode: continuous
-file-output-einar:
-  bot_id: file-output-einar
+file-output:
+  bot_id: file-output
   description: File is the bot responsible to send events to a file.
   enabled: true
   group: Output
   groupname: outputs
   module: intelmq.bots.outputs.file.output
   name: File
-  parameters:
-    destination_queues: {}
-    file: /opt/intelmq/var/lib/bots/file-output/events.txt
-    hierarchical_output: false
-    single_key: ''
+  parameters: {file: /opt/intelmq/var/lib/bots/file-output/events.txt, hierarchical_output: false,
+    single_key: null}
   run_mode: continuous
 gethostbyname-1-expert:
   bot_id: gethostbyname-1-expert
@@ -271,9 +115,9 @@ gethostbyname-2-expert:
     destination_queues:
       _default: [cymru-whois-expert-queue]
   run_mode: continuous
-global: {destination_pipeline_broker: redis, destination_pipeline_host: redis, process_manager: intelmq,
-  source_pipeline_broker: redis, source_pipeline_host: redis, ssl_ca_certificate: null,
-  statistics_database: 3, statistics_host: 127.0.0.1, statistics_password: null, statistics_port: 6379}
+global: {destination_pipeline_broker: redis, process_manager: intelmq, source_pipeline_broker: redis,
+  ssl_ca_certificate: null, statistics_database: 3, statistics_host: 127.0.0.1, statistics_password: null,
+  statistics_port: 6379, destination_pipeline_host: redis, source_pipeline_host: redis}
 malc0de-parser:
   bot_id: malc0de-parser
   description: Malc0de Parser is the bot responsible to parse the IP Blacklist and
