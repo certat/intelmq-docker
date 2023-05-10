@@ -57,7 +57,7 @@ After doing this,  you need to change in docker-compose-dev.yml the volume defin
 After you change some bot or add something new just run command **install_reqs_and_deploy_bots.sh** in the running container
 
 ```
-docker-compose exec -f docker-compose-dev.yml intelmq sudo bash /opt/install_reqs_and_deploy_bots.sh
+docker-compose exec -f docker-compose-dev.yml intelmq bash /opt/install_reqs_and_deploy_bots.sh
 ```
 
 When you do this:
