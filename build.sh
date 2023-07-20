@@ -12,7 +12,7 @@ echo Api       : $git_ref_api
 echo Build_date: $build_date
 
 # build static html
-cd ./intelmq-manager && python3 setup.py build && cd ..
+cd ./intelmq-manager && python3 -m pip install . && intelmq-manager-build && cd ..
 
 docker build --build-arg BUILD_DATE=$build_date \
     --build-arg VCS_REF="IntelMQ-Manager=$git_ref_manager" \

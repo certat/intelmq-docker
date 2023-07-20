@@ -16,5 +16,5 @@ then
     export INTELMQ_TEST_EXOTIC=1
     nosetests3 /opt/intelmq/intelmq/tests
 else
-    cd /opt/intelmq-api && hug -m intelmq_api.serve -p8080
+    cd /opt/intelmq-api && uvicorn intelmq_api.main:app -p8080
 fi
