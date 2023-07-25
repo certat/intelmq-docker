@@ -11,8 +11,10 @@ docker run --rm -v $(pwd)/example_config/intelmq/etc/:/etc/intelmq/etc/ \
     -v $(pwd)/intelmq_output:/etc/intelmq/var/lib/bots \
     -v $(pwd)/example_config/intelmq/var/lib/bot:/etc/intelmq/var/lib/bot \
     -v $(pwd)/intelmq_persistence:/opt/intelmq_persistence \
-    -e "INTELMQ_PIPELINE_DRIVER=\"redis\"" \
+    -e "INTELMQ_PIPELINE_DRIVER=redis" \
     -e "INTELMQ_PIPELINE_HOST=$redis_ip" \
+    -e "INTELMQ_SOURCE_PIPELINE_HOST=$redis_ip" \
+    -e "INTELMQ_DESTINATION_PIPELINE_HOST=$redis_ip" \
     -e "INTELMQ_REDIS_CACHE_HOST=$redis_ip" \
     intelmq-full:latest selftest
 
@@ -34,6 +36,8 @@ docker run --rm -v $(pwd)/example_config/intelmq/etc/:/etc/intelmq/etc/ \
     -v $(pwd)/intelmq_persistence:/opt/intelmq_persistence \
     -e "INTELMQ_PIPELINE_DRIVER=\"amqp\"" \
     -e "INTELMQ_PIPELINE_HOST=$amq_id" \
+    -e "INTELMQ_SOURCE_PIPELINE_HOST=$amq_ip" \
+    -e "INTELMQ_DESTINATION_PIPELINE_HOST=$amq_ip" \
     -e "INTELMQ_REDIS_CACHE_HOST=$redis_ip" \
     intelmq-full:latest selftest
 

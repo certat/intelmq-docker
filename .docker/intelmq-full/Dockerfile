@@ -23,7 +23,6 @@ RUN apt-get update \
     rsync \
     ssh \
     python3-pika \
-    python3-nose \
     python3-dev \
     python3-setuptools \
     python3-pip \
@@ -34,6 +33,8 @@ RUN apt-get update \
     python3-xmltodict \
     python3-cerberus \
     python3-requests-mock \
+    python3-pytest \
+    python3-pytest-cov \
     python3-shodan \
     python3-elasticsearch \
     python3-pymongo \
