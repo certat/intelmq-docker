@@ -23,7 +23,6 @@ RUN apt-get update \
     rsync \
     ssh \
     python3-pika \
-    python3-nose \
     python3-dev \
     python3-setuptools \
     python3-pip \
@@ -34,6 +33,8 @@ RUN apt-get update \
     python3-xmltodict \
     python3-cerberus \
     python3-requests-mock \
+    python3-pytest \
+    python3-pytest-cov \
     python3-shodan \
     python3-elasticsearch \
     python3-pymongo \
@@ -55,7 +56,7 @@ RUN useradd -d /opt/intelmq -U -s /bin/bash intelmq \
     && sudo chown -R intelmq:intelmq /opt/intelmq_persistence
 
 ### Install IntelMQ
-RUN pip3 install hug url-normalize geolib imbox jinja2 pyasn textx tld time-machine otxv2 \
+RUN pip3 install url-normalize geolib imbox jinja2 pyasn textx tld time-machine otxv2 \
     && pip3 install --force pymisp[fileobjects,openioc,virustotal]
 
 RUN cd /opt/intelmq \
@@ -66,7 +67,7 @@ RUN cd /opt/intelmq \
 
 ### Install IntelMQ-API
 RUN cd /opt/intelmq-api \
-    && python3 setup.py install
+    && pip3 install .
 
 ADD entrypoint.sh /opt/entrypoint.sh
 RUN chmod +x /opt/entrypoint.sh \
