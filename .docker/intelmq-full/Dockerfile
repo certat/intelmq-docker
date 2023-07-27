@@ -56,7 +56,7 @@ RUN useradd -d /opt/intelmq -U -s /bin/bash intelmq \
     && sudo chown -R intelmq:intelmq /opt/intelmq_persistence
 
 ### Install IntelMQ
-RUN pip3 install url-normalize geolib imbox jinja2 pyasn textx tld time-machine otxv2 \
+RUN pip3 install url-normalize geolib imbox jinja2 pyasn textx tld time-machine otxv2 pendulum \
     && pip3 install --force pymisp[fileobjects,openioc,virustotal]
 
 RUN cd /opt/intelmq \
