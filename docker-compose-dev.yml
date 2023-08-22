@@ -18,8 +18,7 @@ services:
         networks: 
             - intelmq-internal
     intelmq:
-        # build: .docker/intelmq-full-dev
-        image: certunlp/intelmq3-full-dev:latest
+        build: .docker/intelmq-full-dev
         volumes: 
            - ./example_config/intelmq/etc/:/opt/intelmq/etc/
            - ./example_config/intelmq-api/config.json:/etc/intelmq/api-config.json
