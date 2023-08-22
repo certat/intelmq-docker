@@ -18,12 +18,8 @@ RUN sudo chmod +x /opt/entrypoint-dev.sh \
     && sudo chown intelmq:intelmq /opt/entrypoint-dev.sh
 RUN sudo chmod +x /opt/install_reqs_and_deploy_bots.sh \
     && sudo chown intelmq:intelmq /opt/install_reqs_and_deploy_bots.sh
+RUN usermod -aG intelmq www-data
 
-# This section is just for install all the default bots dependencies
-RUN for req in $(find /etc/intelmq/intelmq/bots/ -name "*REQUIREMENTS.txt"); do cat $req >> /tmp/fullrequirements.txt; done
-RUN cat /tmp/fullrequirements.txt | sort | uniq > /tmp/orderfullrequirements.txt
-RUN cat /tmp/orderfullrequirements.txt |grep -Eo '(^[^#]+)' | xargs  -d "\n" -I {} sh -c 'pip3 install "$1"|| exit 0' sh {}
-
-USER intelmq:intelmq
+USER intelmq
 
 ENTRYPOINT [ "/opt/entrypoint-dev.sh" ]

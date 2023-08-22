@@ -28,4 +28,3 @@ then
 else
     cd /etc/intelmq-api && uvicorn intelmq_api.main:app --port 8080 --host 0.0.0.0
 fi
-
