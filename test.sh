@@ -43,3 +43,11 @@ docker run --rm -v $(pwd)/example_config/intelmq/etc/:/etc/intelmq/etc/ \
 
 echo Removing AMQP container
 docker container kill $amq_id
+
+# restore broke priviliges
+
+for mounted_dir in example_config intelmq_logs intelmq_output intelmq_persistence;
+do
+    echo "Restoring broken privelages to `whoami` for directory $mounted_dir"
+    sudo chown -R `whoami`:`whoami` $(pwd)/$mounted_dir
+done
