@@ -24,7 +24,7 @@ fi
 if [[ $1 == "selftest" ]]
 then
     export INTELMQ_TEST_EXOTIC=1
-    pytest-3 /etc/intelmq/intelmq/tests
+    pytest-3 /opt/intelmq/intelmq/tests
 else
-    cd /etc/intelmq-api && uvicorn intelmq_api.main:app --port 8080 --host 0.0.0.0
+    cd /opt/intelmq-api && uvicorn intelmq_api.main:app --port 8080 --host 0.0.0.0
 fi
