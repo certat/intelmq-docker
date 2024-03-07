@@ -4,7 +4,7 @@
 Do not run this software in production, it might break.
 
 # Information
-This repository is currently maintained by Sebastian Waldbauer (@waldbauer-certat).
+This repository is currently maintained by CERT.at.
 
 If you do have any questions / feedback / questions, please open an issue :)
 
